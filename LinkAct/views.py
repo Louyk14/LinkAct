@@ -15,6 +15,23 @@ def start_page_show(request):
 #</form> 
 #我在服务器端可以通过request.post.get('submit') 为save 或者 cancel来判断用户点击了哪个变量，
 
+#方法2
+#form action="" method="post">
+#……
+#<input type="submit" name="install" value="安装">
+#……
+#<input type="submit" name="server" value="执行">
+#</form>
+#只要在按钮上添加name值，兄弟连如上面红色部分，然后在后台进行判断，即view.py，如下代码：
+#def install(request):
+#    '''服务安装'''
+#    iplist = IP.objects.all()
+#    server_list = AddServer.objects.all()
+#	mserver_list = MServer.objects.all()
+#    if request.method == "POST":
+#        if request.POST.has_key('install'):    #这里判断，如果是name值为install的，则执行此段代码
+#           ……代码段省略……
+#        else:   #这里判断，如果不是name值为install的，则执行此段代码，因为我们就只有2个name，所以就不用elif request.POST.has_key('server'):了
 
 #创建活动
 def toCreateAct()       
