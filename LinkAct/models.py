@@ -1,34 +1,5 @@
 from django.db import models
 from datetime import date
-import ast
-
-# Create your models here.
-#show what front page need
-class ListField(models.TextField):
-    __metaclass__ = models.SubfieldBase
-    description = "Stores a python list"
- 
-    def __init__(self, *args, **kwargs):
-        super(ListField, self).__init__(*args, **kwargs)
- 
-    def to_python(self, value):
-        if not value:
-            value = []
- 
-        if isinstance(value, list):
-            return value
- 
-        return ast.literal_eval(value)
- 
-    def get_prep_value(self, value):
-        if value is None:
-            return value
- 
-        return str(value)
- 
-    def value_to_string(self, obj):
-        value = self._get_val_from_obj(obj)
-        return self.get_db_prep_value(value)
 
 class Front(models.Model):
 	a = ''
@@ -43,7 +14,7 @@ class User(models.Model):
 	#生日
 	birthday = models.DateField(default = date.today)
 	#好友
-	friends = ListField(default = [])
+	friends = list()
 	#主页地址
 	website = models.URLField()
 	#邮箱
@@ -53,17 +24,17 @@ class User(models.Model):
 	#头像
 	head = models.ImageField(upload_to = 'image/')
 	#已完成活动：参与&发起
-	participate_terminative_acts = ListField(default = [])
-	create_ongoing_acts = ListField(default = [])
+	participate_terminative_acts = list()
+	create_ongoing_acts = list()
 	#进行中活动：参与&发起
-	participate_terminative_acts = ListField(default = [])
-	create_ongoing_acts = ListField(default = [])
+	participate_terminative_acts = list()
+	create_ongoing_acts = list()
 	#评论过的活动
-	commented_acts = ListField(default = [])
+	commented_acts = list()
 	#性别
 	gender = models.CharField(max_length = 20)
 	#兴趣
-	interests = ListField(default = [])
+	interests = list()
 
 	def __str__(self):
 		return self.username
@@ -74,7 +45,7 @@ class activity(models.Model):
 	#发起人ID
 	creator = models.CharField(max_length = 20)
 	#参与人ID
-	participants = ListField(default = [])
+	participants = list()
 	#地点
 	locale = models.CharField(max_length = 20)
 	#主题
@@ -88,7 +59,7 @@ class activity(models.Model):
 	#发起介绍
 	introduction = models.TextField()
 	#点赞人
-	supporters = ListField(default = [])
+	supporters = list()
 
 class interest(models.Model):
 	id = models.CharField(max_length = 50)
