@@ -15,7 +15,7 @@ class User(models.Model):
 	#生日
 	birthday = models.CommaSeparatedIntegerField(max_length = 3)
 	#好友
-	friends = models.JSONField(max_length = 300)
+	friends = models.ListField()
 	#主页地址
 	website = models.URLField()
 	#邮箱
@@ -25,17 +25,17 @@ class User(models.Model):
 	#头像
 	head = models.ImageField(upload_to = 'image/')
 	#已完成活动：参与&发起
-	participate_terminative_acts = models.JSONField(max_length = 300)
-	create_ongoing_acts = models.JSONField(max_length = 300)
+	participate_terminative_acts = models.ListField()
+	create_ongoing_acts = models.ListField()
 	#进行中活动：参与&发起
-	participate_terminative_acts = models.JSONField(max_length = 300)
-	create_ongoing_acts = models.JSONField(max_length = 300)
+	participate_terminative_acts = models.ListField()
+	create_ongoing_acts = models.ListField()
 	#评论过的活动
-	commented_acts = models.JSONField(max_length = 300)
+	commented_acts = models.ListField()
 	#性别
 	gender = models.CharField(max_length = 20)
 	#兴趣
-	interests = models.JSONField(max_length = 300)
+	interests = models.ListField()
 
 	def __str__(self):
 		return self.username
@@ -46,7 +46,7 @@ class activity(models.Model):
 	#发起人ID
 	creator = models.CharField(max_length = 20)
 	#参与人ID
-	participants = models.JSONField(max_length = 300)
+	participants = models.ListField()
 	#地点
 	locale = models.CharField(max_length = 20)
 	#主题
@@ -60,8 +60,34 @@ class activity(models.Model):
 	#发起介绍
 	introduction = models.TextField()
 	#点赞人
-	supporters = models.JSONField(max_length = 300)
+	supporters = models.ListField()
 
 class interest(models.Model):
 	id = models.CharField(max_length = 50)
 	content = models.CharField(max_length = 20)
+
+class ListField(models.TextField):
+    __metaclass__ = models.SubfieldBase
+    description = "Stores a python list"
+ 
+    def __init__(self, *args, **kwargs):
+        super(ListField, self).__init__(*args, **kwargs)
+ 
+    def to_python(self, value):
+        if not value:
+            value = []
+ 
+        if isinstance(value, list):
+            return value
+ 
+        return ast.literal_eval(value)
+ 
+    def get_prep_value(self, value):
+        if value is None:
+            return value
+ 
+        return unicode(value) # use str(value) in Python 3
+ 
+    def value_to_string(self, obj):
+        value = self._get_val_from_obj(obj)
+        return self.get_db_prep_value(value)
