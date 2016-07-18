@@ -34,44 +34,47 @@ def start_page_show(request):
 #        else:   #这里判断，如果不是name值为install的，则执行此段代码，因为我们就只有2个name，所以就不用elif request.POST.has_key('server'):了
 
 #创建活动
-def toCreateAct():   
-    return render(request, '创建活动网页', {'参数'})
+def toCreateAct():
+    
+    return render(request, '创建活动网页', {'创建网页的用户信息——本人信息'})
 
 #创建完成
 def overCreateAct():
-    return render(request, '跳转至某网页', {})
+    return render(request, '跳转至某网页', {'无参数'})
 
 #参加活动
 def enterAct():
-    return render(request, '可跳转可不跳', {})
+    return render(request, '可跳转可不跳', {'无参数'})
 
 #退出活动
 def exitAct():
-    return render(requset, '同上', {})
+    return render(requset, '同上', {'无参数'})
 
 #查看活动信息
 def checkActMsg():
-    return render(request, '统一前缀 + 活动id', {})
+    #按下按钮后根据按钮活动id获取活动信息
+    return render(request, '统一前缀 + 活动id', {'获取的或活动信息'})
 
 #登录
 def logIn():
-    return render(request, '', {})
+    #根据用户名找到对应用户信息及信息网页
+    return render(request, '用户信息网页或主页', {'用户信息'})
 
 #登出
 def logOut():
-    return render(request, '', {})
+    return render(request, '', {'无参数'})
 
 #查看个人信息
 def checkPersonalMsg():
-    return render(request, '个人信息页面', {})
+    return render(request, '个人信息页面', {'同logIn'})
 
-#评价活动
+#评价活动 —— 此处应有评价结构体
 def evaluateAct():
     return render(request, '评价页面', {})
 
 #完成评价
 def finishEvaluate():
-    return render(request, '跳转至主页或其它', {})
+    return render(request, '跳转至主页或其它', {'用户信息及活动信息'})
 
 #查找活动   //搜索页面不同于主页面
 def searchAct():
@@ -79,7 +82,7 @@ def searchAct():
 
 #返回主页面按钮
 def returnMainPage():
-    return render(request, '主页面url', {})
+    return render(request, '主页面url', {'无参数'})
 
 #添加好友
 def requestForFriend():
@@ -87,7 +90,7 @@ def requestForFriend():
 
 #分享活动   按下分享按钮，页面可跳转可不跳转
 def shareAct():
-    return reder(request, '', {})
+    return reder(request, '弹窗？不跳转网页？', {})
 
 
 # Create your views here.
