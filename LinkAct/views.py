@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from .models import Post
+from .models import Front
 # Create your views here.
 def start_page_show(request):
-	start_page = Post.objects.all() 
+	start_page = Front.objects.all() 
 	return render(request, 'LinkAct/start_page.html',
-		{'stc':stc})
+		{})
 		
 #
 #如下的表单内容： 
