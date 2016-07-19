@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Front
+
 # Create your views here.
 def start_page_show(request):
 	start_page = Front.objects.all() 
@@ -82,7 +82,7 @@ def over_create_act(request):
         activity.order_by("create_date")
         form = ActForm()
     show_acts = activity.objects.all()
-    if(len(show_acts) >= 10):
+    if len(show_acts) >= 10:
         show_acts = show_acts[:10]   
     return render(request, '跳转至查看活动界面', {'show_acts': show_acts})
 

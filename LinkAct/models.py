@@ -6,9 +6,6 @@ import json
 
 # Create your models here.
 #show what front page need
-class Front(models.Model):
-	a = 'aaaa'
-
 class ListField(models.TextField):
 	__metaclass__ = models.SubfieldBase
 	description = "Stores a python list"
@@ -45,7 +42,7 @@ class MyUser(models.Model):
 	#生日
 	birthday = models.DateField(default = date.today)
 	#好友
-	friends = models.ListField(default = [])
+	friends = ListField(default = [])
 	#主页地址
 	website = models.URLField()
 	#所在城市
@@ -53,17 +50,17 @@ class MyUser(models.Model):
 	#头像
 	head = models.ImageField(upload_to = 'image/')
 	#已完成活动：参与&发起
-	participate_terminative_acts = models.ListField(default = [])
-	create_terminative_acts = models.ListField(default = [])
+	participate_terminative_acts = ListField(default = [])
+	create_terminative_acts = ListField(default = [])
 	#进行中活动：参与&发起
-	participate_ongoing_acts = models.ListField(default = [])
-	create_ongoing_acts = models.ListField(default = [])
+	participate_ongoing_acts = ListField(default = [])
+	create_ongoing_acts = ListField(default = [])
 	#评论过的活动
-	commented_acts = models.ListField(default = [])
+	commented_acts = ListField(default = [])
 	#性别
 	gender = models.CharField(max_length = 20)
 	#兴趣
-	interests = models.ListField(default = [])
+	interests = ListField(default = [])
 
 	args = {'friends': friends}
 
@@ -116,7 +113,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_friends(self, friend_id):
 		f = json.loads(self.friends)
-		if(friend_id not in f):
+		if friend_id not in f:
 			f.append(friend_id)
 			self.friends = f
 			self.save()
@@ -126,7 +123,7 @@ class MyUser(models.Model):
 		return False
 	def remove_friends(self, friend_id):
 		f = json.loads(self.friends)
-		if(friend_id in f):
+		if friend_id in f:
 			f.remove(friend_id)
 			self.friends = f
 			self.save()
@@ -149,7 +146,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_participate_terminative_acts(self, act_id):
 		pta = json.loads(self.participate_terminative_acts)
-		if(act_id not in pta):
+		if act_id not in pta:
 			pta.append(act_id)
 			self.participate_terminative_acts = pta
 			self.save()
@@ -159,7 +156,7 @@ class MyUser(models.Model):
 		return False
 	def remove_participate_terminative_acts(self, act_id):
 		pta = json.loads(self.participate_terminative_acts)
-		if(act_id in pta):
+		if act_id in pta:
 			pta.remove(act_id)
 			self.participate_terminative_acts = pta
 			self.save()
@@ -172,7 +169,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_create_terminative_acts(self, act_id):
 		cta = json.loads(self.create_terminative_acts)
-		if(act_id not in cta):
+		if act_id not in cta:
 			cta.append(act_id)
 			self.create_terminative_acts = cta
 			self.save()
@@ -182,7 +179,7 @@ class MyUser(models.Model):
 		return False
 	def remove_create_terminative_acts(self, act_id):
 		cta = json.loads(self.create_terminative_acts)
-		if(act_id in cta):
+		if act_id in cta:
 			cta.remove(act_id)
 			self.create_terminative_acts = cta
 			self.save()
@@ -195,7 +192,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_participate_ongoing_acts(self, act_id):
 		poa = json.loads(self.participate_ongoing_acts)
-		if(act_id not in poa)
+		if act_id not in poa:
 			poa.append(act_id)
 			self.participate_ongoing_acts = poa
 			self.save()
@@ -205,7 +202,7 @@ class MyUser(models.Model):
 		return False
 	def remove_participate_ongoing_acts(self, act_id):
 		poa = json.loads(self.participate_ongoing_acts)
-		if(act_id in poa):
+		if act_id in poa:
 			poa.remove(act_id)
 			self.participate_ongoing_acts = poa
 			self.save()
@@ -218,7 +215,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_create_ongoing_acts(self, act_id):
 		coa = json.loads(self.create_ongoing_acts)
-		if(act_id not in coa):
+		if act_id not in coa:
 			coa.append(act_id)
 			self.create_ongoing_acts = coa
 			self.save()
@@ -228,7 +225,7 @@ class MyUser(models.Model):
 		return False
 	def remove_create_ongoing_acts(self, act_id):
 		coa = json.loads(self.create_ongoing_acts)
-		if(act_id in coa):
+		if act_id in coa:
 			coa.remove(act_id)
 			self.create_ongoing_acts = coa
 			self.save()
@@ -241,7 +238,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_commented_acts(self, act_id):
 		ca = json.loads(self.commented_acts)
-		if(act_id not in ca):
+		if act_id not in ca:
 			ca.append(act_id)
 			self.commented_acts = ca
 			self.save()
@@ -251,7 +248,7 @@ class MyUser(models.Model):
 		return False
 	def remove_commented_acts(self, act_id):
 		ca = json.loads(self.commented_acts)
-		if(act_id in ca):
+		if act_id in ca:
 			ca.remove(act_id)
 			self.commented_acts = ca
 			self.save()
@@ -267,7 +264,7 @@ class MyUser(models.Model):
 		self.save()
 	def append_interests(self, interest_id):
 		ite = json.loads(self.interests)
-		if(interest_id not in ite):
+		if interest_id not in ite:
 			ite.append(interest_id)
 			self.interests = ite
 			self.save()
@@ -277,7 +274,7 @@ class MyUser(models.Model):
 		return False
 	def remove_interests(self, interest_id):
 		ite = json.loads(self.interests)
-		if(interest_id in ite):
+		if interest_id in ite:
 			ite.remove(interest_id)
 			self.interests = ite
 			self.save()
@@ -307,7 +304,7 @@ class activity(models.Model):
 	#发起人ID
 	creator = models.CharField(max_length = 20)
 	#参与人ID
-	participants = models.ListField(default = [])
+	participants = ListField(default = [])
 	#地点
 	locale = models.CharField(max_length = 20)
 	#主题
@@ -321,7 +318,7 @@ class activity(models.Model):
 	#发起介绍
 	introduction = models.TextField()
 	#点赞人
-	supporters = models.ListField(default = [])
+	supporters = ListField(default = [])
 
 	#get attribute
 	def get_status(self):
@@ -359,7 +356,7 @@ class activity(models.Model):
 		self.save()
 	def append_participants(self, participant_id):
 		p = json.loads(self.participants)
-		if(participant_id not in p):
+		if participant_id not in p:
 			p.append(participant_id)
 			self.participants = p
 			self.save()
@@ -369,7 +366,7 @@ class activity(models.Model):
 		return False
 	def remove_participants(self, participant_id):
 		p = json.loads(self.participants)
-		if(participant_id in p):
+		if participant_id in p:
 			p.remove(participant_id)
 			self.participants = p
 			self.save()
@@ -397,7 +394,7 @@ class activity(models.Model):
 		self.save()
 	def append_supporters(self, supporter_id):
 		s = json.loads(self.supporters)
-		if(supporter_id not in s):
+		if supporter_id not in s:
 			s.append(supporter_id)
 			self.supporters = s
 			self.save()
@@ -407,7 +404,7 @@ class activity(models.Model):
 		return False
 	def remove_supporters(self, supporter_id):
 		s = json.loads(self.supporters)
-		if(supporter_id in s):
+		if supporter_id in s:
 			s.remove(supporter_id)
 			self.supporters = s
 			self.save()
