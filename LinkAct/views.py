@@ -34,119 +34,119 @@ def start_page_show(request):
 #        else:   #这里判断，如果不是name值为install的，则执行此段代码，因为我们就只有2个name，所以就不用elif request.POST.has_key('server'):了
 
 
-from .models import User
-from .models import activity
+# from .models import User
+# from .models import activity
 from django.shortcuts import render
 from django.contrib import auth
 from django.core.mail import send_mail
 
 #创建活动
 def to_create_act():
-    
-    return render(request, '创建活动网页', {'创建网页的用户信息——本人信息'})
+	
+	return render(request, '创建活动网页', {'创建网页的用户信息——本人信息'})
 
 #创建完成
 def over_create_act(request):
-    #在全局绑定函数中判断按下了哪个按钮，此处需知道当前用户名，默认活动form为ActForm
-    params = request.POST
-    form = ActForm(params)
-    if form.is_valid():
-        newAct = form.save(commit=False)
-        newAct.creator = request.user.username
-        newAct.save()
-        activity.order_by("create_date")
-        form = ActForm()
-    show_acts = activity.objects.all()
-    if(len(show_acts) >= 10):
-        show_acts = show_acts[:10]   
-    return render(request, '跳转至查看活动界面', {'show_acts': show_acts})
+	#在全局绑定函数中判断按下了哪个按钮，此处需知道当前用户名，默认活动form为ActForm
+	params = request.POST
+	form = ActForm(params)
+	if form.is_valid():
+		newAct = form.save(commit=False)
+		newAct.creator = request.user.username
+		newAct.save()
+		activity.order_by("create_date")
+		form = ActForm()
+	show_acts = activity.objects.all()
+	if(len(show_acts) >= 10):
+		show_acts = show_acts[:10]   
+	return render(request, '跳转至查看活动界面', {'show_acts': show_acts})
 
 #参加活动，传入活动id，如何根据request获取当前用户id，此处还未判断是否人满
 def enter_act(request, act_id):
-        to_entered_act = activity.objects.get(id = act_id)
-        to_entered_act.participants.push(request.user.id)
+	to_entered_act = activity.objects.get(id = act_id)
+	to_entered_act.participants.push(request.user.id)
 
-        #向用户正参加活动列表中添加
-    return render(request, '可跳转可不跳', {'无参数'})
+		#向用户正参加活动列表中添加
+	return render(request, '可跳转可不跳', {'无参数'})
 
 #退出活动
 def exit_act(request, act_id):
-    to_entered_act = activity.objects.get(id = act_id)
-    to_entered_act.participants.remove(request.user.id)
+	to_entered_act = activity.objects.get(id = act_id)
+	to_entered_act.participants.remove(request.user.id)
 
-    #从用户正参加列表中删除
-    return render(requset, '同上', {'无参数'})
+	#从用户正参加列表中删除
+	return render(requset, '同上', {'无参数'})
 
 #查看活动信息
 def check_act_msg(request, act_id):
-    #按下按钮后根据按钮活动id获取活动信息
-    to_check_act = activity.objects.get(id = act_id)
-    
-    return render(request, '统一前缀 + 活动id', {'to_check_act': to_check_act})
+	#按下按钮后根据按钮活动id获取活动信息
+	to_check_act = activity.objects.get(id = act_id)
+	
+	return render(request, '统一前缀 + 活动id', {'to_check_act': to_check_act})
 
 #登录
 def log_in(request):
-    #根据用户名找到对应用户信息及信息网页
-    log_username = request.POST['username']
-    log_password = request.POST['password']
-    user = auth.authenticate(username = log_username, password = log_password)
-    if user is not None:
-        if user.is_active:
-            auth.login(request, user)
-        else:
-            #不匹配
+	#根据用户名找到对应用户信息及信息网页
+	log_username = request.POST['username']
+	log_password = request.POST['password']
+	user = auth.authenticate(username = log_username, password = log_password)
+	if user is not None:
+		if user.is_active:
+			auth.login(request, user)
+			#不匹配
+	return render(request, '', {})
 
-    
+	
 #登出
 def log_out(request):
-    auth.logout(request)
-    return render(request, '', {})
+	auth.logout(request)
+	return render(request, '', {})
 
 #查看个人信息
 def check_personal_msg(request):
-    return render(request, '个人信息页面', {'log_user': request.user})
+	return render(request, '个人信息页面', {'log_user': request.user})
 
 #评价活动——需要评价Form，先定义为CommentForm
 def evaluate_act(request, act_id):
-    return render(request, '评价页面', {'act_id': act_id})
+	return render(request, '评价页面', {'act_id': act_id})
 
 #完成评价
 def finish_evaluate(request, act_id):
-    params = request.POST
-    form = CommentForm(params)
-    if form.is_valid():
-        newComment = form.save(commit=False)
-        newComment.creator = request.user.username
-        newComment.save()
-        activity.order_by("create_date")
-        form = newComment()
-    return render(request, '跳转至主页或其它', {'用户信息及活动信息'})
+	params = request.POST
+	form = CommentForm(params)
+	if form.is_valid():
+		newComment = form.save(commit=False)
+		newComment.creator = request.user.username
+		newComment.save()
+		activity.order_by("create_date")
+		form = newComment()
+	return render(request, '跳转至主页或其它', {'用户信息及活动信息'})
 
 #查找活动   //搜索页面不同于主页面
 def search_act(request):
-    params = request.POST
-    form = RequestForm(params)
+	params = request.POST
+	form = RequestForm(params)
 
-    #不同检索方式
-    if form.method == 'theme'
-        show_answers = activitys.filter(theme=form.content)
-        return render(request, '搜索页面结果/search/?q=搜索内容', {'show_answers': show_answers})
+	#不同检索方式
+	if form.method == 'theme':
+		show_answers = activitys.filter(theme=form.content)
+		return render(request, '搜索页面结果/search/?q=搜索内容', {'show_answers': show_answers})
 
 #返回主页面按钮
 def return_mainpage():
-    return render(request, '主页面url', {'无参数'})
+	return render(request, '主页面url', {'无参数'})
 
 #添加好友
 def request_for_friend(request):
-    return render(request, '??弹窗或新页面', {})
+	return render(request, '??弹窗或新页面', {})
 
 #分享活动   按下分享按钮，页面可跳转可不跳转
 def share_act():
-    #貌似要用到相关分享平台的API
-    return render(request, '弹窗？不跳转网页？', {})
+	#貌似要用到相关分享平台的API
+	return render(request, '弹窗？不跳转网页？', {})
 
 def send_emails():
-    send_mail('wf', 'wf', "Louyk14@163.com", "Louyk14@163.com", fail_silently=False)
+	send_mail('wf', 'wf', "Louyk14@163.com", "Louyk14@163.com", fail_silently=False)
 
 
 # Create your views here.

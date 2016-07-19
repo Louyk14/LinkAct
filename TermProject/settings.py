@@ -121,6 +121,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    ('css',os.path.join(STATIC_ROOT,'css').replace('\\','/') ),  
+    ('js',os.path.join(STATIC_ROOT,'js').replace('\\','/') ), 
+    ('images',os.path.join(STATIC_ROOT,'images').replace('\\','/') ), 
+    ('upload',os.path.join(STATIC_ROOT,'upload').replace('\\','/') ), 
+)
+
 
 #Just for ImageField
 MEDIA_ROOT = 'media/'

@@ -1,0 +1,30 @@
+#logopart1{
+	text-decoration: none;
+	background: transparent;
+	text-align: left;
+	color: black;
+	font-family: Helvetica;
+	font-style: solid;
+	margin-left: 1vw;
+}
+
+#logopart2{
+	text-decoration: none;
+	background: transparent;
+	text-align: left;
+	color: #009a61;
+	font-family: Helvetica;
+	font-style: solid;
+	width: 10%;
+	text-indent: 105%;
+}
+
+#logo{
+	font-size: 8vh;
+}
+
+#copy{
+	font-size: 4vh;
+	color: black;
+	font-weight: bold;
+}
