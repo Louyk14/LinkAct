@@ -35,7 +35,7 @@ def start_page_show(request):
 
 
 from .models import MyUser
-from .models import activity
+from .models import Activity
 from django.shortcuts import render
 from django.contrib import auth
 from django.core.mail import send_mail
@@ -79,16 +79,16 @@ def over_create_act(request):
         newAct = form.save(commit=False)
         newAct.creator = request.user.username
         newAct.save()
-        activity.order_by("create_date")
+        Activity.order_by("create_date")
         form = ActForm()
-    show_acts = activity.objects.all()
+    show_acts = Activity.objects.all()
     if len(show_acts) >= 10:
         show_acts = show_acts[:10]   
     return render(request, '跳转至查看活动界面', {'show_acts': show_acts})
 
 #参加活动，传入活动id，如何根据request获取当前用户id，此处还未判断是否人满
 def enter_act(request, act_id):
-    to_entered_act = activity.objects.get(id = act_id)
+    to_entered_act = Activity.objects.get(id = act_id)
     to_entered_act.participants.push(request.user.id)
 
         #向用户正参加活动列表中添加
@@ -96,7 +96,7 @@ def enter_act(request, act_id):
 
 #退出活动
 def exit_act(request, act_id):
-    to_entered_act = activity.objects.get(id = act_id)
+    to_entered_act = Activity.objects.get(id = act_id)
     to_entered_act.participants.remove(request.user.id)
 
     #从用户正参加列表中删除
@@ -105,7 +105,7 @@ def exit_act(request, act_id):
 #查看活动信息
 def check_act_msg(request, act_id):
     #按下按钮后根据按钮活动id获取活动信息
-    to_check_act = activity.objects.get(id = act_id)
+    to_check_act = Activity.objects.get(id = act_id)
     
     return render(request, '统一前缀 + 活动id', {'to_check_act': to_check_act})
 
@@ -145,7 +145,7 @@ def finish_evaluate(request, act_id):
         newComment = form.save(commit=False)
         newComment.creator = request.user.username
         newComment.save()
-        activity.order_by("create_date")
+        Activity.order_by("create_date")
         form = newComment()
     return render(request, '跳转至主页或其它', {'用户信息及活动信息'})
 
@@ -156,13 +156,13 @@ def search_act(request):
 
     #不同检索方式
     if form.method == 'theme':
-        show_answers = activitys.filter(theme=form.content)
+        show_answers = Activitys.filter(theme=form.content)
         return render(request, '搜索页面结果/search/?q=搜索内容', {'show_answers': show_answers})
     elif form.method == 'theme':
-        show_answers = activitys.filter(theme=form.content)
+        show_answers = Activitys.filter(theme=form.content)
         return render(request, '搜索页面结果/search/?q=搜索内容', {'show_answers': show_answers})
     elif form.method == 'theme':
-        show_answers = activitys.filter(theme=form.content)
+        show_answers = Activitys.filter(theme=form.content)
         return render(request, '搜索页面结果/search/?q=搜索内容', {'show_answers': show_answers})
     elif form.method == 'theme':
         show_answers = activitys.filter(theme=form.content)
