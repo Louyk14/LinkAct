@@ -36,6 +36,7 @@
 	background-color: rgba(64,64,64,.7);
 	text-align: center;
 	margin-top: -20px;
+	padding-bottom: 20px;
 	font-family: Helvetica;
 	color: white;
 }
@@ -51,5 +52,7 @@
 	font-size: 5vh;
 	margin-top: 0px;
 	padding-bottom: 8vh;
-
+}
+#copy_right{
+	text-align: center;
 }

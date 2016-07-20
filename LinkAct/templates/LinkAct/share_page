@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset='utf-8'>
-		<title>Welcome to LinkAct</title>
+		<title>Share the Activity</title>
 		<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 		<!-- 新 Bootstrap 核心 CSS 文件 -->
 		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -32,11 +32,11 @@
 			<div class="container-fluid" id="navigation_container">
     			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      			<ul class="nav nav-pills navbar-left">
-					  	<li role="presentation" class="active"><a href="#">首页</a></li>
+					  	<li role="presentation"><a href="#">首页</a></li>
 					  	<li role="presentation"><a href="#">领客</a></li>
 					  	<li role="presentation"><a href="#">活动</a></li>
 					  	<li role="presentation"><a href="#">探索</a></li>
-					  	<li role="presentation"><a href="#">分享</a></li>
+					  	<li role="presentation" class="active"><a href="#">分享</a></li>
 
 					</ul>
 		      		<ul class="nav navbar-nav navbar-right">
@@ -60,42 +60,6 @@
 			<p id="subtitle">make the life better</p>
 		</div>
 
-		<div class="jumbotron" style='margin-bottom:0px'>
-		  	<div class="container">
-		   		<h1>加入我们成为领客一份子</h1>
-				<p>在这里，你可以认识到与你有着共同爱好的一群人</p>
-				<p>他们与你共享互动的喜悦</p>
-				<p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
-		  	</div>
-		</div>
-		<div class="jumbotron" style='margin-bottom:0px; text-align:right' >
-		  	<div class="container">
-		   		<h1>通过活动连接彼此的生活</h1>
-		   		<p>只需简单的操作，你就可以发起一次活动，邀请各路人们加入你的盛宴</p>
-				<p>喜爱的活动，畅谈的朋友，生活充满了色彩</p>
-				<p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
-		  	</div>
-		</div>
-		<div class="jumbotron" style='margin-bottom:0px'>
-		  	<div class="container">
-		   		<h1>探索与发现周围的精彩活动</h1>
-				<p>千千万万种活动待你发现</p>
-				<p>从这里发现世界的精彩</p>
-				<p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
-		  	</div>
-		</div>
-		<div class="jumbotron" style='margin-bottom:0px; text-align:right'>
-		  	<div class="container">
-		   		<h1>向更多的人分享你的活动</h1>
-				<p>几次点击，就可能向朋友送出邀请</p>
-				<p>传播活动带来的欢乐</p>
-				<p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
-		  	</div>
-		</div>
-	
-		<ul class="nav nav-list">
-   			<li class="divider">草泥马</li>
-		</ul>
 		<footer class="bs-docs-footer" role="contentinfo">
 			<div class='container' id='copy_right'>
 				<p>由古志诚、向首兴、楼昀恺设计以及建造的网站</p>

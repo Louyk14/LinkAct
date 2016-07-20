@@ -19,4 +19,6 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.start_page_show, name='start_page'),
+	url(r'^$/login'), views.log_in, name='log_in'),
+	
 ]

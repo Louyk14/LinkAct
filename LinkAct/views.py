@@ -1,10 +1,18 @@
 from django.shortcuts import render
+from .models import MyUser
+from .models import activity
+from django.shortcuts import render
+from django.contrib import auth
+from django.core.mail import send_mail
 
 # Create your views here.
 def start_page_show(request):
-	start_page = Front.objects.all() 
+	 
 	return render(request, 'LinkAct/start_page.html',
 		{})
+
+def linker_page_show(request):
+    return render(request, 'LinkAct/')
 		
 #
 #如下的表单内容： 
@@ -33,12 +41,6 @@ def start_page_show(request):
 #           ……代码段省略……
 #        else:   #这里判断，如果不是name值为install的，则执行此段代码，因为我们就只有2个name，所以就不用elif request.POST.has_key('server'):了
 
-
-from .models import MyUser
-from .models import activity
-from django.shortcuts import render
-from django.contrib import auth
-from django.core.mail import send_mail
 
 #用户注册
 def user_register(request):

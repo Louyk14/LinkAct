@@ -38,7 +38,7 @@ class MyUser(models.Model):
 	#昵称
 	nickname = models.CharField(max_length = 20)
 	#ID
-	id = models.CharField(max_length = 50)
+	#id = models.CharField(max_length = 50)
 	#生日
 	birthday = models.DateField(default = date.today)
 	#好友
