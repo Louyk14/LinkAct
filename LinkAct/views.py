@@ -35,8 +35,11 @@ from django.core.mail import send_mail
 # Create your views here.
 #导航栏
 def start_page_show(request):
+	user_name = 'test'
+	current_user = MyUser()
+
 	return render(request, 'LinkAct/start_page.html',
-		{})
+		{'has_login':True, 'user_name': user_name})
 
 def linker_page_show(request):
 	return render(request, 'LinkAct/linker_page.html', 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+from TermProject import settings
 import ast
 import json
 
@@ -46,8 +47,8 @@ class MyUser(models.Model):
 	website = models.URLField()
 	#所在城市
 	city = models.CharField(max_length = 20)
-	#头像
-	head = models.ImageField(upload_to = 'image/')
+	#头像 放在media文件
+	head = models.ImageField(upload_to = settings.MEDIA_ROOT)
 	#已完成活动：参与&发起
 	participate_terminative_acts = ListField(default = [])
 	create_terminative_acts = ListField(default = [])

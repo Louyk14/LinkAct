@@ -124,11 +124,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
     ('css',os.path.join(STATIC_ROOT,'css').replace('\\','/') ),  
     ('js',os.path.join(STATIC_ROOT,'js').replace('\\','/') ), 
-    ('images',os.path.join(STATIC_ROOT,'images').replace('\\','/') ), 
+    ('img',os.path.join(STATIC_ROOT,'img').replace('\\','/') ), 
     ('upload',os.path.join(STATIC_ROOT,'upload').replace('\\','/') ), 
 )
 
 
 #Just for ImageField
-MEDIA_ROOT = 'media/'
-MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

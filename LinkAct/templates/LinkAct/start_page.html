@@ -31,6 +31,11 @@
       			<a id='logopart2'>Act</a>
       			<a id='copy'>"Link The Activities To You"</a>
     		</div>
+
+    		{% if has_login %}
+    		<img id='user_img_id' src={{current_user.head.url}}/>
+    		{% endif %}
+
 			<div class="container-fluid" id="navigation_container">
     			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      			<ul class="nav nav-pills navbar-left">
@@ -62,6 +67,8 @@
 
 					</ul>
 		      		<ul class="nav navbar-nav navbar-right">
+		      			{% if has_login %}
+		      			<li><a id='user_name_id'>{{ user_name }}</a></li>
 		        		<li><a href="#">登出</a></li>
 		        		<li class="dropdown">
 			          		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span></a>
@@ -73,6 +80,10 @@
 					            <li><a href="#">用户信息</a></li>
 				            </ul>
 			        	</li>
+			        	{% else %}
+			        	<li><a href="#">登录</a></li>
+		        		<li><a href="#">注册</a></li>
+			        	{% endif %}
 			        </ul>
 			    </div><!-- /.navbar-collapse -->
 	  		</div><!-- /.container-fluid -->

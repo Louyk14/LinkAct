@@ -56,3 +56,10 @@
 #copy_right{
 	text-align: center;
 }
+
+#user_img_id{
+	height: 8vh;
+	position: absolute;
+	top: 3vh; 
+	right: 4vw;
+}
