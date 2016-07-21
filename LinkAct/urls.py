@@ -18,7 +18,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-	url(r'^$', views.start_page_show, name='start_page'),
-	url(r'^$/login'), views.log_in, name='log_in'),
-	
+	url(r'^$', views.start_page_show, name='start_page_url'),
+	url(r'linker', views.linker_page_show, name='linker_page_url'),
+    url(r'activities', views.activities_page_show, name='activities_page_url'),
+    url(r'explore', views.explore_page_show, name='explore_page_url'),
+    url(r'share', views.share_page_show, name='share_page_url'),
 ]
