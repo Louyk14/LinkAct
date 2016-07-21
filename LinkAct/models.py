@@ -4,6 +4,8 @@ from datetime import date
 from TermProject import settings
 import ast
 import json
+import types
+import string
 
 # Create your models here.
 #show what front page need
@@ -32,13 +34,13 @@ class ListField(models.TextField):
 	def value_to_string(self, obj):
 		value = self._get_val_from_obj(obj)
 		return self.get_db_prep_value(value)
+
 	
 class MyUser(models.Model):
 	#与其关联的默认User
 	user = models.OneToOneField(User, on_delete = models.CASCADE)
 	#昵称
 	nickname = models.CharField(max_length = 20)
-
 	#生日
 	birthday = models.DateField(default = date.today)
 	#好友
@@ -47,8 +49,10 @@ class MyUser(models.Model):
 	website = models.URLField()
 	#所在城市
 	city = models.CharField(max_length = 20)
-	#头像 放在media文件
-	head = models.ImageField(upload_to = settings.MEDIA_ROOT)
+
+	#头像
+	head = models.ImageField(upload_to = 'media/', default = 'media/no_img.jpg')
+
 	#已完成活动：参与&发起
 	participate_terminative_acts = ListField(default = [])
 	create_terminative_acts = ListField(default = [])
@@ -72,7 +76,9 @@ class MyUser(models.Model):
 	def get_birthday(self):
 		return self.birthday
 	def get_friends(self):
-		return json.loads(self.friends)
+		if isinstance(self.friends, str):
+			return json.loads(self.friends)
+		return self.friends
 	def get_website(self):
 		return self.website
 	def get_email(self):
@@ -80,19 +86,31 @@ class MyUser(models.Model):
 	def get_city(self):
 		return self.city
 	def get_participate_terminative_acts(self):
-		return json.loads(self.participate_terminative_acts)
+		if isinstance(self.participate_terminative_acts, str):
+			return json.loads(self.participate_terminative_acts)
+		return self.participate_terminative_acts
 	def get_create_terminative_acts(self):
-		return json.loads(self.create_terminative_acts)
+		if isinstance(self.create_terminative_acts, str):
+			return json.loads(self.create_terminative_acts)
+		return self.create_terminative_acts
 	def get_participate_ongoing_acts(self):
-		return json.loads(self.participate_ongoing_acts)
+		if isinstance(self.participate_ongoing_acts, str):
+			return json.loads(self.participate_ongoing_acts)
+		return self.participate_ongoing_acts
 	def get_create_ongoing_acts(self):
-		return json.loads(self.create_ongoing_acts)
+		if isinstance(self.create_ongoing_acts, str):
+			return json.loads(self.create_ongoing_acts)
+		return self.create_ongoing_acts
 	def get_commented_acts(self):
-		return json.loads(self.commented_acts)
+		if isinstance(self.commented_acts, str):
+			return json.loads(self.commented_acts)
+		return self.commented_acts
 	def get_gender(self):
 		return self.gender
 	def get_interests(self):
-		return json.loads(self.interests)
+		if isinstance(self.interests, str):
+			return json.loads(self.interests)
+		return self.interests
 
 
 	#set attribute
@@ -110,7 +128,7 @@ class MyUser(models.Model):
 		self.friends = friends
 		self.save()
 	def append_friends(self, friend_id):
-		f = json.loads(self.friends)
+		f = self.get_friends()
 		if friend_id not in f:
 			f.append(friend_id)
 			self.friends = f
@@ -120,7 +138,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_friends(self, friend_id):
-		f = json.loads(self.friends)
+		f = self.get_friends()
 		if friend_id in f:
 			f.remove(friend_id)
 			self.friends = f
@@ -143,7 +161,7 @@ class MyUser(models.Model):
 		self.participate_terminative_acts = participate_terminative_acts
 		self.save()
 	def append_participate_terminative_acts(self, act_id):
-		pta = json.loads(self.participate_terminative_acts)
+		pta = self.get_participate_terminative_acts()
 		if act_id not in pta:
 			pta.append(act_id)
 			self.participate_terminative_acts = pta
@@ -153,7 +171,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_participate_terminative_acts(self, act_id):
-		pta = json.loads(self.participate_terminative_acts)
+		pta = self.get_participate_terminative_acts()
 		if act_id in pta:
 			pta.remove(act_id)
 			self.participate_terminative_acts = pta
@@ -166,7 +184,7 @@ class MyUser(models.Model):
 		self.create_terminative_acts = create_terminative_acts
 		self.save()
 	def append_create_terminative_acts(self, act_id):
-		cta = json.loads(self.create_terminative_acts)
+		cta = self.get_create_terminative_acts()
 		if act_id not in cta:
 			cta.append(act_id)
 			self.create_terminative_acts = cta
@@ -176,7 +194,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_create_terminative_acts(self, act_id):
-		cta = json.loads(self.create_terminative_acts)
+		cta = self.get_create_terminative_acts()
 		if act_id in cta:
 			cta.remove(act_id)
 			self.create_terminative_acts = cta
@@ -189,7 +207,7 @@ class MyUser(models.Model):
 		self.participate_ongoing_acts = participate_ongoing_acts
 		self.save()
 	def append_participate_ongoing_acts(self, act_id):
-		poa = json.loads(self.participate_ongoing_acts)
+		poa = self.get_participate_ongoing_acts()
 		if act_id not in poa:
 			poa.append(act_id)
 			self.participate_ongoing_acts = poa
@@ -199,7 +217,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_participate_ongoing_acts(self, act_id):
-		poa = json.loads(self.participate_ongoing_acts)
+		poa = self.get_participate_ongoing_acts()
 		if act_id in poa:
 			poa.remove(act_id)
 			self.participate_ongoing_acts = poa
@@ -212,7 +230,7 @@ class MyUser(models.Model):
 		self.create_ongoing_acts = create_ongoing_acts
 		self.save()
 	def append_create_ongoing_acts(self, act_id):
-		coa = json.loads(self.create_ongoing_acts)
+		coa = self.get_create_ongoing_acts()
 		if act_id not in coa:
 			coa.append(act_id)
 			self.create_ongoing_acts = coa
@@ -222,7 +240,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_create_ongoing_acts(self, act_id):
-		coa = json.loads(self.create_ongoing_acts)
+		coa = self.get_create_ongoing_acts()
 		if act_id in coa:
 			coa.remove(act_id)
 			self.create_ongoing_acts = coa
@@ -235,7 +253,7 @@ class MyUser(models.Model):
 		self.commented_acts = commented_acts
 		self.save()
 	def append_commented_acts(self, act_id):
-		ca = json.loads(self.commented_acts)
+		ca = self.get_commented_acts()
 		if act_id not in ca:
 			ca.append(act_id)
 			self.commented_acts = ca
@@ -245,7 +263,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_commented_acts(self, act_id):
-		ca = json.loads(self.commented_acts)
+		ca = self.get_commented_acts()
 		if act_id in ca:
 			ca.remove(act_id)
 			self.commented_acts = ca
@@ -261,7 +279,7 @@ class MyUser(models.Model):
 		self.interests = interests
 		self.save()
 	def append_interests(self, interest_id):
-		ite = json.loads(self.interests)
+		ite = self.get_interests()
 		if interest_id not in ite:
 			ite.append(interest_id)
 			self.interests = ite
@@ -271,7 +289,7 @@ class MyUser(models.Model):
 		self.save()
 		return False
 	def remove_interests(self, interest_id):
-		ite = json.loads(self.interests)
+		ite = self.get_interests()
 		if interest_id in ite:
 			ite.remove(interest_id)
 			self.interests = ite
@@ -284,29 +302,164 @@ class MyUser(models.Model):
 		self.user.set_password(raw_password)
 		self.user.save()
 		self.save()
+	def set_gender(self, gender):
+		if gender == '男' or gender == '女':
+			self.gender = gender
+			self.save()
+			return True
+		return False
 
 	#tools
 	def check_password(self, raw_password):
 		return self.user.check_password(raw_password)
 	def email_user(self, subject, message, from_email = None, **kwargs):
 		self.user.email_user(subject, message, from_email, kwargs)
-	def create_user(self, nickname, username, password):
-		flag = True
-		temp = User.objects.all()
-		for item in temp:
-			if item.username == username:
-				flag = False
-				break
-		if flag:
-			u = User(username = username, password = password)
-			u.save()
-			self.user = u
-			self.nickname = nickname
-			self.save()
-			return True
-		else:
-			return False
+
+	def create_user(self, nickname, usernames, passwords):
+                flag = True
+                temp = User.objects.all()
+                for item in temp:
+                        if item.username == usernames:
+                                flag = False
+                                break
+                if flag:
+                        u = User.objects.create_user(username=usernames,password=passwords)
+                        u.save()
+                        self.user = u
+                        self.nickname = nickname
+                        self.save()
+                        return True
+                else:
+                        return False
+	def delete_user(self):
+		a = self.user
+		a.delete()
+		self.delete()
+	def create_activity(self, theme):
+		if not isinstance(theme, list):
+			return false
+		a = Activity(theme = theme, creator = self.id)
+		a.save()
+		flag =  self.append_create_ongoing_acts(a.id)
+		return flag
+	def get_activities(self, kinds, order_base):
+		acts = Activity.objects.order_by(order_base)
+		if not isinstance(kinds, str):
+			return []
+		results = []
+		if kinds == 'participate_terminative_acts':
+			pta = self.get_participate_terminative_acts()
+			results = [var for var in acts if var.id in pta]
+		elif kinds == 'create_terminative_acts':
+			cta = self.get_create_terminative_acts()
+			results = [var for var in acts if var.id in cta]
+		elif kinds == 'participate_ongoing_acts':
+			poa = self.get_participate_ongoing_acts()
+			results = [var for var in acts if var.id in poa]
+		elif kinds == 'create_ongoing_acts':
+			coa = self.get_create_ongoing_acts()
+			results = [var for var in acts if var.id in coa]
+		return results
 	
+	#data是一个act数组，在该数组中查找同时符合reference中theme的act，满足的项数越多越靠前
+	def activity_theme_filter(self, data, reference):
+		if not isinstance(reference, list):
+			return []
+		results = {}
+		for item in data:
+			temp = [var for var in item.get_theme() if var in reference]
+			results[item] = temp
+		return sorted(results.items(), key = lambda asd:asd[1], reverse = True)
+
+	#data是一个MyUser数组，在该数组中进行查找，同时符合reference中的各种属性的MyUser,
+	#reference中的属性不固定，例如：{'city':'重庆'}和{'city':'重庆', 'nickname': '偷心的鱼'}皆可,
+	#属性可选范围是MyUser和User的所有属性
+	def user_filter(self, data, reference):
+		results = []
+		for item in data:
+			results.append(item)
+		if 'username' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_username() != reference['username']:
+					del results[i]
+				else:
+					i += 1
+		if 'id' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_id() != reference['id']:
+					del results[i]
+				else:
+					i += 1
+		#birthday的值的类型是string，格式是'2016-07-21'
+		if 'birthday' in reference:
+			i = 0
+			while(i < len(results)):
+				if str(results[i].get_birthday()) != reference['birthday']:
+					del results[i]
+				else:
+					i += 1
+		if 'friends' in reference:
+			i = 0
+			while(i < len(results)):
+				temp = results[i].get_friends()
+				for x in reference['friends']:
+					if x not in temp:
+						del results[i]
+						i -= 1
+						break
+				i += 1
+		if 'website' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_website() != reference['website']:
+					del results[i]
+				else:
+					i += 1
+		if 'email' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_email() != reference['email']:
+					del results[i]
+				else:
+					i += 1
+		if 'nickname' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_nickname() != reference['nickname']:
+					del results[i]
+				else:
+					i += 1
+		if 'city' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_city() != reference['city']:
+					del results[i]
+				else:
+					i += 1
+		if 'gender' in reference:
+			i = 0
+			while(i < len(results)):
+				if results[i].get_gender() != reference['gender']:
+					del results[i]
+				else:
+					i += 1
+		if 'interests' in reference:
+			i = 0
+			while(i < len(results)):
+				temp = results[i].get_interests()
+				for x in reference['interests']:
+					if x not in temp:
+						del results[i]
+						i -= 1
+						break
+				i += 1
+		return results
+
+		
+
+
 
 
 	def __str__(self):
@@ -322,7 +475,7 @@ class Activity(models.Model):
 	#地点
 	locale = models.CharField(max_length = 20)
 	#主题
-	theme = models.CharField(max_length = 20)
+	theme = ListField(default = [])
 	#发起时间
 	create_date = models.DateField(default = date.today)
 	#开始时间
@@ -342,10 +495,14 @@ class Activity(models.Model):
 	def get_creator(self):
 		return self.creator
 	def get_participants(self):
-		return json.loads(self.participants)
+		if isinstance(self.participants, str):
+			return json.loads(self.participants)
+		return self.participants
 	def get_locale(self):
 		return self.locale
 	def get_theme(self):
+		if isinstance(self.theme, str):
+			return json.loads(self.theme)
 		return self.theme
 	def get_create_date(self):
 		return self.create_date
@@ -356,7 +513,9 @@ class Activity(models.Model):
 	def get_introduction(self):
 		return self.introduction
 	def get_supporters(self):
-		return json.loads(self.supporters)
+		if isinstance(self.supporters, str):
+			return json.loads(self.supporters)
+		return self.supporters
 
 	#set
 	def set_status(self, status):
@@ -369,7 +528,7 @@ class Activity(models.Model):
 		self.participants = participants
 		self.save()
 	def append_participants(self, participant_id):
-		p = json.loads(self.participants)
+		p = self.get_participants()
 		if participant_id not in p:
 			p.append(participant_id)
 			self.participants = p
@@ -379,7 +538,7 @@ class Activity(models.Model):
 		self.save()
 		return False
 	def remove_participants(self, participant_id):
-		p = json.loads(self.participants)
+		p = self.get_participants()
 		if participant_id in p:
 			p.remove(participant_id)
 			self.participants = p
@@ -394,6 +553,26 @@ class Activity(models.Model):
 	def set_theme(self, theme):
 		self.theme = theme
 		self.save()
+	def append_theme(self, theme_id):
+		t = self.get_theme()
+		if theme_id not in t:
+			t.append(theme_id)
+			self.theme = t
+			self.save()
+			return True
+		self.theme = t
+		self.save()
+		return False
+	def remove_theme(self, theme_id):
+		t = self.get_theme()
+		if theme_id in t:
+			t.remove(theme_id)
+			self.theme = t
+			self.save()
+			return True
+		self.theme = t
+		self.save()
+		return False
 	def update_start_date(self):
 		self.start_date = date.today
 		self.save()
@@ -407,7 +586,7 @@ class Activity(models.Model):
 		self.supporters = supporters
 		self.save()
 	def append_supporters(self, supporter_id):
-		s = json.loads(self.supporters)
+		s = self.get_supporters()
 		if supporter_id not in s:
 			s.append(supporter_id)
 			self.supporters = s
@@ -417,7 +596,7 @@ class Activity(models.Model):
 		self.save()
 		return False
 	def remove_supporters(self, supporter_id):
-		s = json.loads(self.supporters)
+		s = self.get_supporters()
 		if supporter_id in s:
 			s.remove(supporter_id)
 			self.supporters = s
@@ -426,12 +605,29 @@ class Activity(models.Model):
 		self.supporters = s
 		self.save()
 		return False
+	def get_theme_content(self):
+		results = []
+		for item in self.get_theme():
+			results.append(Theme.objects.get(id = item).content)
+		return ','.join(results)
 
 	def __str__(self):
-		return self.theme
+		return self.get_theme_content()
 
 class Interest(models.Model):
 	content = models.CharField(max_length = 20)
+	#get attribute
+	def get_content(self):
+		return self.content
+	#set
+	def set_content(self, content):
+		self.content = content
+		self.save()
+	def __str__(self):
+		return self.content
+
+class Theme(models.Model):
+	content = models.CharField(max_length = 100)
 	#get attribute
 	def get_content(self):
 		return self.content
