@@ -20,9 +20,6 @@
 		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{%static "css/navigation.css" %}">
 	
-		{% load bootstrap3 %}
-		{% bootstrap_css %}
-		{% bootstrap_javascript %}
 	</head>
 	<body margin='0px'>
 		<nav class="navbar navbar-default">	
@@ -71,7 +68,7 @@
 		      			<li><a id='user_name_id'>{{ user_name }}</a></li>
 		        		<li><a href="#">登出</a></li>
 		        		<li class="dropdown">
-			          		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span></a>
+			          		<a href='#' class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">操作<span class="caret"></span></a>
 				            <ul class="dropdown-menu">
 					            <li><a href="#">管理活动</a></li>
 					            <li><a href="#">查看好友</a></li>
@@ -80,6 +77,7 @@
 					            <li><a href="#">用户信息</a></li>
 				            </ul>
 			        	</li>
+			        	
 			        	{% else %}
 			        	<li><a href="#">登录</a></li>
 		        		<li><a href="#">注册</a></li>
