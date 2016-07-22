@@ -11,6 +11,19 @@ from django.http import HttpResponse
 
 base_url = 'http://127.0.0.1:8000'
 
+#   search_class表示搜索类别，search_content表示搜索内容,search_content表示搜索的页码号，要在template中动态生成
+#
+#ERROR_INDEX
+#
+#0 -----  输入正确
+#1 -----  两次输入密码不一致
+#2 -----  用户名已存在
+#3 -----  信息不完整
+#4 -----  密码错误
+#5 -----  用户不存在
+#-1 ----  未知错误
+ 
+
 #
 #搜索部分网址格式http://192.168.55.33:8000/search/?search_class=nickname&search_content=u&search_page=1
 #   search_class表示搜索类别，search_content表示搜索内容,search_content表示搜索的页码号，要在template中动态生成
@@ -31,7 +44,8 @@ base_url = 'http://127.0.0.1:8000'
 def start_page_show(request):
 	user_name = 'test'
 	current_user = MyUser()
-
+    # request.user
+    # has_login=?
 	return render(request, 'LinkAct/start_page.html',
 		{})
 
@@ -53,6 +67,8 @@ def activities_page_show(request):
 
 #用户注册
 def user_register(request):
+    form = RegisterForm()
+
     if request.method == "POST":
         params = request.POST
         usernames = params.get('username', '')
@@ -61,36 +77,32 @@ def user_register(request):
         email = params.get('email', '')
         nickname = params.get('nickname', '')
         birthday = params.get('birthday', '')
-        # website = params.get('website', '')
         city = params.get('city', '')
-        registerForm = RegisterForm(params)
+        
         #一系列合法性判定
-        if not registerForm.is_valid() or password1 != password2:
-            #注册失败  
-            return HttpResponse('密码不一致')
-        if(len(User.objects.filter(username=usernames))):
-            #用户名已存在
-            return Http
-        #判定完毕
-        #user = User()
-        #user.username = usernames
-        #user.password = password1
-        #user.email = email
-        
-        #myUser.user = user
-        myUser = MyUser()
-        #myUser.nickname = nickname
-        #myUser.birthday = birthday
-        #myUser.website = website
-        #myUser.city = city
-        #user.MyUser.head = registerForm.head
-        #user.MyUser.gender = registerForm.gender
-        #user.MyUser.interests = registerForm.gender
+        try:
+            if usernames == None or password1 == None or password2 == None or email == None or nickname == None or birthday == None or city == None:
+                #信息不完整
+                print('incomplete info')
+                return render(request, 'LinkAct/register_result_page.html', {'form':form, 'error_index':3})
+            if password1 != password2:
+                print('password1 is not equal to password2')
+                return render(request, 'LinkAct/register_result_page.html', {'form':form, 'error_index':1})
+            if len(User.objects.filter(username=usernames)):
+                #用户名已存在
+                print('username already exists')
+                return render(request, 'LinkAct/register_result_page.html', {'form':form, 'error_index':2})
+            #判定完毕
+            myUser = MyUser()
+            myUser.create_user(nickname, usernames, password1)
+            print(request.user)
+            return render(request, 'LinkAct/register_result_page.html', {'form':form,'error_index':0})
 
-        myUser.create_user(nickname, usernames, password1)
-        
-        return render(request, 'LinkAct/start_page', {'has_login':True,'username':usernames})
-    form = RegisterForm()
+        except:
+            #注册失败  
+            print('register failed')
+            return render(request, 'LinkAct/register_result_page.html', {'form':form, 'error_index':-1})
+            
     return render(request, 'LinkAct/register_page.html', {'form':form})
 
 #创建完成
@@ -172,7 +184,7 @@ def log_in(request):
         log_password = request.POST['password']
         user = auth.authenticate(username=log_username, password=log_password)
         
-        if user is not None:         
+        if user is not None:        
             auth.login(request, user)
             return HttpResponseRedirect(base_url)
         else:
