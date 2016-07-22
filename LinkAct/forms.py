@@ -3,17 +3,18 @@ from .models import MyUser
 from .models import Activity
 from .models import Interest
 from .models import ListField
+from datetime import date
 
 #注册信息
 class RegisterForm(forms.Form):
-    username = forms.CharField(max_length = 20)
-    password1 = forms.CharField(max_length = 20)
-    password2 = forms.CharField(max_length = 20)
-    email = forms.CharField(max_length = 20)
-    nickname = forms.CharField(max_length = 20)
-    birthday = forms.DateField(default = date.today)
-    website = forms.URLField()
-    city = forms.CharField(max_length = 20)
+    username = forms.CharField(label='用户名',max_length = 20)
+    password1 = forms.CharField(label='密码',widget=forms.PasswordInput())
+    password2 = forms.CharField(label='再次确认密码',widget=forms.PasswordInput())
+    nickname = forms.CharField(label='昵称',max_length = 20)
+    email = forms.EmailField(label='电子邮箱')
+    birthday = forms.DateField(label='生日',initial=date.today)
+    # website = forms.URLField()
+    city = forms.CharField(label='城市',max_length = 20)
 
 #创建活动信息
 class ActForm(forms.Form):
@@ -28,23 +29,23 @@ class ActForm(forms.Form):
     #主题
     theme = forms.CharField(max_length = 20)
     #发起时间
-    create_date = forms.DateField(default = date.today)
+    create_date = forms.DateField(initial = date.today)
     #开始时间
-    start_date = forms.DateField(default = date.today)
+    start_date = forms.DateField(initial = date.today)
     #结束时间
-    end_data = forms.DateField(default = date.today)
+    end_data = forms.DateField(initial = date.today)
     #发起介绍
-    introduction = forms.TextField()
+    introduction = forms.CharField(max_length= 200)
     #点赞人
     supporters = ListField(default = [])
 
         
 #发起评论信息
 class CommentForm(forms.Form):
-    commenter = models.IntegerField()
-    score = models.IntegerField()
-    content = models.CharField(max_length = 20)
+    commenter = forms.IntegerField()
+    score = forms.IntegerField()
+    content = forms.CharField(max_length = 20)
 
 class LogForm(forms.Form):
-    username = forms.CharField(max_length = 20)
-    password = forms.CharField(max_length = 20)
+    username = forms.CharField(label='用户名',initial='',max_length=20)
+    password = forms.CharField(label='密码',initial='',widget=forms.PasswordInput())

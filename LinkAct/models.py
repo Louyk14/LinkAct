@@ -49,10 +49,8 @@ class MyUser(models.Model):
 	website = models.URLField()
 	#所在城市
 	city = models.CharField(max_length = 20)
-
 	#头像
 	head = models.ImageField(upload_to = 'media/', default = 'media/no_img.jpg')
-
 	#已完成活动：参与&发起
 	participate_terminative_acts = ListField(default = [])
 	create_terminative_acts = ListField(default = [])
@@ -79,8 +77,8 @@ class MyUser(models.Model):
 		if isinstance(self.friends, str):
 			return json.loads(self.friends)
 		return self.friends
-	def get_website(self):
-		return self.website
+	# def get_website(self):
+	# 	return self.website
 	def get_email(self):
 		return self.user.email
 	def get_city(self):
@@ -147,9 +145,9 @@ class MyUser(models.Model):
 		self.friends = f
 		self.save()
 		return False
-	def set_website(self, website):
-		self.website = website
-		self.save()
+	# def set_website(self, website):
+	# 	self.website = website
+	# 	self.save()
 	def set_email(self, email):
 		self.user.email = email
 		self.user.save()

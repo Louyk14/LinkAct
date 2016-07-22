@@ -76,9 +76,15 @@
 				            </ul>
 			        	</li>
 			        	{% else %}
-			        	<li><a href="#">登录</a></li>
-		        		<li><a href="#">注册</a></li>
+			        	{% url 'log_in_url' as url5%}
+			        	{% if url5%}
+			        	<li><a href="{{ url5 }}">登录</a></li>
 			        	{% endif %}
+		        		{% url 'register_url' as url6%}
+		        		{% if url6 %}
+		        		<li><a href="{{ url6 }}">注册</a></li>
+		        		{% endif %}
+			        	{% endif %}			        
 			        </ul>
 			    </div><!-- /.navbar-collapse -->
 	  		</div><!-- /.container-fluid -->

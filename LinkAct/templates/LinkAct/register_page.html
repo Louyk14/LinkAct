@@ -58,18 +58,20 @@
 
 					</ul>
 		      		<ul class="nav navbar-nav navbar-right">
-		      			{% url 'register_url' as url6%}
-		      			{% if url6 %}
-		        		<li><a href="{{ url6 }}">注册</a></li>
+		      			{% url 'log_in_url' as url5%}
+			        	{% if url5%}
+		        		<li><a href="{{ url5 }}">登录</a></li>
 		        		{% endif %}
 			        </ul>
 			    </div><!-- /.navbar-collapse -->
 	  		</div><!-- /.container-fluid -->
 		</nav>
 		<div class="cover">
-			<p id="title">Link The Activties</p>
-			<p id="subtitle">make the life better</p>
+			<p id="title">Sign Up Now</p>
+			<p id="subtitle">We are looking forward to your attendance</p>
 		</div>
+
+		<!--中期检查后这里需要重新设计一下-->
 		<form method="post">
 		    {% csrf_token %}
 		    {{ form }}

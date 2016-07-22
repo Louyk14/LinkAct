@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'activities/', views.activities_page_show, name='activities_page_url'),
     url(r'explore/', views.explore_page_show, name='explore_page_url'),
     url(r'share/', views.share_page_show, name='share_page_url'),
-    
+    url(r'login/', views.log_in, name='log_in_url'),
+    url(r'register', views.user_register, name='register_url'),
 ]
