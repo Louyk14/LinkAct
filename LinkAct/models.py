@@ -661,3 +661,5 @@ class Comment(models.Model):
 		self.save()
 	def __str__(self):
 		return self.content
+class Img(models.Model):
+	img = models.ImageField(upload_to = 'upload')

@@ -18,11 +18,13 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-	url(r'^$', views.start_page_show, name='start_page_url'),
+	url(r'user/info/', views.check_personal_msg, name='user_info_url'),
+    url(r'user/set_password/', views.set_password_func, name='user_password_url'),
 	url(r'linker/', views.linker_page_show, name='linker_page_url'),
     url(r'activities/', views.activities_page_show, name='activities_page_url'),
     url(r'explore/', views.explore_page_show, name='explore_page_url'),
     url(r'share/', views.share_page_show, name='share_page_url'),
     url(r'login/', views.log_in, name='log_in_url'),
-    url(r'register', views.user_register, name='register_url'),
+    url(r'register/', views.user_register, name='register_url'),
+    url(r'^', views.start_page_show, name='start_page_url'),
 ]

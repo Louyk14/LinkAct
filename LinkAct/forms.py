@@ -13,8 +13,19 @@ class RegisterForm(forms.Form):
     nickname = forms.CharField(label='昵称',max_length = 20)
     email = forms.EmailField(label='电子邮箱')
     birthday = forms.DateField(label='生日',initial=date.today)
-    # website = forms.URLField()
     city = forms.CharField(label='城市',max_length = 20)
+
+
+class PersonalInfoForm(forms.Form):
+    nickname = forms.CharField(label='昵称',max_length = 20)
+    email = forms.EmailField(label='电子邮箱')
+    birthday = forms.DateField(label='生日')
+    city = forms.CharField(label='城市',max_length = 20)
+
+class SetPasswordForm(forms.Form):
+    origin_password = forms.CharField(label='原始密码',widget=forms.PasswordInput())
+    new_password1 = forms.CharField(label='新密码',widget=forms.PasswordInput())
+    new_password2 = forms.CharField(label='再次确认新密码',widget=forms.PasswordInput())
 
 #创建活动信息
 class ActForm(forms.Form):
@@ -38,7 +49,6 @@ class ActForm(forms.Form):
     introduction = forms.CharField(max_length= 200)
     #点赞人
     supporters = ListField(default = [])
-
         
 #发起评论信息
 class CommentForm(forms.Form):

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Be A Linker</title>
+		<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+		<!-- 新 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+		<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+		<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{%static "css/navigation.css" %}">
+	
+	</head>
+	<body margin='0px'>
+		<nav class="navbar navbar-default">	
+			<div id="logo" style='background-color=#f8f8f8:'>
+      			<a id='logopart1'>Link</a>
+      			<a id='logopart2'>Act</a>
+      			<a id='copy'>"Link The Activities To You"</a>
+    		</div>
+
+    		
+			<div class="container-fluid" id="navigation_container">
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      			<ul class="nav nav-pills navbar-left">
+					  	{%url 'start_page_url' as url0 %}
+					  	{% if url0 %}
+					  	<li role="presentation"><a href="{{ url0 }}">首页</a></li>
+					  	{% endif%}
+
+					  	{%url 'linker_page_url' as url1 %}
+					  	{% if url1 %}
+					  	<li role="presentation"><a href="{{ url1 }}">领客</a></li>
+					  	{% endif %}
+
+					  	{%url 'activities_page_url' as url2 %}
+					  	{% if url2 %}
+					  	<li role="presentation"><a href="{{ url2 }}">活动</a></li>
+					  	{% endif %}
+
+					  	{%url 'explore_page_url' as url3 %}
+					  	{% if url3 %}
+					  	<li role="presentation"><a href="{{ url3 }}">探索</a></li>
+					  	{% endif %}
+
+					  	{%url 'share_page_url' as url4 %}
+					  	{% if url4 %}
+					  	<li role="presentation"><a href="{{ url4 }}">分享</a></li>
+					  	{% endif %}
+
+					</ul>
+		      		<ul class="nav navbar-nav navbar-right">
+		      			{% url 'log_in_url' as url5%}
+			        	{% if url5%}
+		        		<li><a href="{{ url5 }}">登录</a></li>
+		        		{% endif %}
+			        </ul>
+			    </div><!-- /.navbar-collapse -->
+	  		</div><!-- /.container-fluid -->
+		</nav>
+		<div class="cover">
+			<p id="title">Welcome To LinkAct</p>
+			<p id="subtitle">We are looking forward to your attendance</p>
+		</div>
+
+		
+		<div class="panel panel-default">
+			{% if error_index == 0%}
+		  	<div class="panel-body">
+		    	注册成功
+		  	</div>
+		  	<div class="panel-footer"><p>恭喜您！您已经成功注册，并且成为领客一员，您可以点击下方按钮回到主页或者通过导航栏浏览其他功能</p>		
+		  	<a class="btn btn-success btn-lg" href="{{ url0 }}" role="button">
+		  		回到主页</a>
+
+
+		  	{% url 'register_url' as url6%}
+		  	{% url 'user_password_url' as url7%}
+		  	{% url 'user_info_url' as url8%}
+					   
+
+		  	{% elif error_index == 1%}
+		  	<div class="panel-body">
+		    	两次密码不一致
+		  	</div>
+		  	<div class="panel-footer"><p>非常抱歉！请您重新注册</p>
+		
+		  	<a class="btn btn-warning btn-lg" href="{{ url6 }}" role="button">重新注册</a>
+		 
+
+		  	{% elif error_index == 2%}
+		  	<div class="panel-body">
+		    	该用户名已被注册
+		  	</div>
+		  	<div class="panel-footer"><p>非常抱歉！请您重新注册</p>
+		  	
+		  	<a class="btn btn-warning btn-lg" href="{{ url6 }}" role="button">重新注册</a>
+		  	
+
+		  	{% elif error_index == 3%}
+		  	<div class="panel-body">
+		    	注册信息不完整
+		  	</div>
+		  	<div class="panel-footer"><p>非常抱歉！请您重新注册</p>
+		  
+		  	<a class="btn btn-warning btn-lg" href="{{ url6 }}" role="button">重新注册</a>
+
+		  	{% elif error_index == 6%}
+		  	<div class="panel-body">
+		    	修改密码成功
+		  	</div>
+		  	<div class="panel-footer"><p>请重新登录</p>
+		  	<a class="btn btn-success btn-lg" href="{{ url0 }}" role="button">回到主页</a>
+
+		  	{% elif error_index == 7%}
+		  	<div class="panel-body">
+		    	修改密码失败
+		  	</div>
+		  	<div class="panel-footer"><p>两次输入密码不一致，请重新修改</p>
+		  	<a class="btn btn-warning btn-lg" href="{{ url7 }}" role="button">重新修改</a>
+
+		  	{% elif error_index == 8%}
+		  	<div class="panel-body">
+		    	修改密码失败
+		  	</div>
+		  	<div class="panel-footer"><p>原密码输入错误，请重新输入</p>
+		  	<a class="btn btn-warning btn-lg" href="{{ url7 }}" role="button">重新修改</a>
+		  	
+		  	{% elif error_index == 9%}
+		  	<div class="panel-body">
+		    	修改成功
+		  	</div>
+		  	<div class="panel-footer"><p>您的个人信息已经修改成功，点击按钮查看个人信息</p>
+		  	<a class="btn btn-success btn-lg" href="{{ url8 }}" role="button">个人信息</a>
+
+
+		  	{% else %}
+		  	<div class="panel-body">
+		    	操作失败
+		  	</div>
+		  	<div class="panel-footer"><p>非常抱歉！请您重新操作</p>
+		  	
+		  	<a class="btn btn-warning btn-lg" href="{{ url6 }}" role="button">重新操作</a>
+		  
+
+		  	{% endif %}
+		  	</div>
+		</div>
+
+
+		<footer class="bs-docs-footer" role="contentinfo">
+			<div class='container' id='copy_right'>
+				<p>由古志诚、向首兴、楼昀恺设计以及建造的网站</p>
+				<p>感谢github上开源的bootstrap框架以及django框架</p>
+				<p>若有建议以及意见，请不拘束地联系我们</p>
+				<p>Gu's email:734291093@qq.com</p>
+				<p>Xiang's email:xsx1996@163.com</p>
+				<p>Lou's email:louyk14@163.com</p>
+			</div>
+		</footer>
+	</body>
+</html>
