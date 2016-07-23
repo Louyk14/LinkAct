@@ -192,6 +192,7 @@ def activities_page_show(request):
 
 #用户注册
 def user_register(request):
+
 	form = RegisterForm()
 
 	if request.method == "POST":
@@ -225,6 +226,7 @@ def user_register(request):
  
 	return render(request, 'LinkAct/register_page.html', {'form':form})
 		
+
 
 #创建完成
 def over_create_act(request):
