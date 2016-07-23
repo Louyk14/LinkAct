@@ -30,7 +30,7 @@
     		</div>
 
     		{% if has_login %}
-    		<img id='user_img_id' src={{current_user.head.url}}/>
+    		<img id='user_img_id' src={{ img.img.url }} />
     		{% endif %}
 
 			<div class="container-fluid" id="navigation_container">
@@ -101,18 +101,14 @@
 	  		</div><!-- /.container-fluid -->
 		</nav>
 		{% if form%}
-		
 		<form method="post">
-			{% csrf_token %}
-		    <label for="id_nickname">昵称:</label>
-    		<input id="id_nickname" type="text" name="nickname" value="{{ nickname_value }}">
-    		<label for="id_email">电子邮箱:</label>
-    		<input id="id_email" type="email" name="email" value="{{ email_value }}">
-    		<label for="id_birthday">生日:</label>
-    		<input id="id_birthday" type="text" name="birthday" value="{{ birthday_value }}">
-    		<label for="id_city">城市:</label>
-    		<input id="id_city" type="text" name="city" value="{{ city_value }}">
-    		<input type="submit" value="修改">
+		    {% csrf_token %}
+		    账号：<input type="label" name="username" value={{personal_msg.username}} readonly="readonly">
+		    昵称：<input type="text" name="nickname" value={{personal_msg.myuser.nickname}}>
+		    email：<input type="text" name="email" value={{personal_msg.email}}>
+		    城市：<input type="text" name="city" value={{personal_msg.myuser.city}}>
+		    爱好：<input type="text" name="interest" value={{interest_msg}} readonly="readonly">
+		    <input type="submit" value="提交" />
 		</form>
 		{% endif %}
 		<footer class="bs-docs-footer" role="contentinfo">

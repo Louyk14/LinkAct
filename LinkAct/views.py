@@ -16,6 +16,7 @@ from .forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from LinkAct.models import Img
+import string
 
 base_url = 'http://127.0.0.1:8000'
 
@@ -38,6 +39,11 @@ base_url = 'http://127.0.0.1:8000'
 
 #修改个人信息
 #9 -----  修改信息成功
+
+#用户登录
+#10 ----- 用户登录成功
+#11 ----- 不存在该用户
+#12 ----- 用户密码不匹配
 
 #-1 ----  未知错误
 
@@ -106,13 +112,18 @@ def start_page_show(request):
 
 	if request.user.username == AnonymousUser.username:
 		has_login = False
+		return render(request, 'LinkAct/start_page.html',
+		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
+		img = Img.objects.all()[0]
+		print(img.img.url)
+		return render(request, 'LinkAct/start_page.html',
+		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
 
 
-	return render(request, 'LinkAct/start_page.html',
-		{'user_name':user.username, 'has_login':has_login})
+	
 
 def linker_page_show(request):
 	#-----------登录判定----------#
@@ -126,12 +137,17 @@ def linker_page_show(request):
 
 	if request.user.username == AnonymousUser.username:
 		has_login = False
+		return render(request, 'LinkAct/linker_page.html',
+		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
+		img = Img.objects.all()[0]
+		print('2')
+		return render(request, 'LinkAct/linker_page.html',
+		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
 
-	return render(request, 'LinkAct/linker_page.html',
-		{'user_name':user.username, 'has_login':has_login})
+	
 
 def explore_page_show(request):
 	#-----------登录判定----------#
@@ -145,12 +161,17 @@ def explore_page_show(request):
 
 	if request.user.username == AnonymousUser.username:
 		has_login = False
+		return render(request, 'LinkAct/explore_page.html',
+		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
+		img = Img.objects.all()[0]
+		print('3')
+		return render(request, 'LinkAct/explore_page.html',
+		{'user_name':user.username, 'has_login':has_login, 'img':img})
 	#-----------登录判定----------#
 
-	return render(request, 'LinkAct/explore_page.html',
-		{'user_name':user.username, 'has_login':has_login})
+	
 
 def share_page_show(request):
 	#-----------登录判定----------#
@@ -164,12 +185,17 @@ def share_page_show(request):
 
 	if request.user.username == AnonymousUser.username:
 		has_login = False
+		return render(request, 'LinkAct/share_page.html',
+		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
+		img = Img.objects.all()[0]
+		print('4')
+		return render(request, 'LinkAct/share_page.html',
+		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
 
-	return render(request, 'LinkAct/share_page.html',
-		{'user_name':user.username, 'has_login':has_login})
+	
 
 def activities_page_show(request):
 	#-----------登录判定----------#
@@ -183,12 +209,17 @@ def activities_page_show(request):
 
 	if request.user.username == AnonymousUser.username:
 		has_login = False
+		return render(request, 'LinkAct/activities_page.html',
+		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
+		img = Img.objects.all()[0]
+		print('5')
+		return render(request, 'LinkAct/activities_page.html',
+		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
 
-	return render(request, 'LinkAct/activities_page.html',
-		{'user_name':user.username, 'has_login':has_login})
+	
 
 #用户注册
 def user_register(request):
@@ -204,7 +235,8 @@ def user_register(request):
 		nickname = params.get('nickname', '')
 		birthday = params.get('birthday', '')
 		city = params.get('city', '')
-		
+		interests = params.getlist('interest', '')
+		print(type(interests))
 		#一系列合法性判定
 		
 		if usernames == None or password1 == None or password2 == None or email == None or nickname == None or birthday == None or city == None:
@@ -220,7 +252,7 @@ def user_register(request):
 			return render(request, 'LinkAct/result_page.html', {'error_index':2})
 		#判定完毕
 		myUser = MyUser()
-		myUser.create_user(nickname, usernames, password1)
+		myUser.create_user(usernames, password1, email, nickname, birthday, city, interests)
 		
 		return render(request, 'LinkAct/result_page.html', {'error_index':0})
  
@@ -316,10 +348,16 @@ def log_in(request):
 
 		user = auth.authenticate(username=log_username, password=log_password)
 		
+		if len(User.objects.filter(username=log_username)) == 0:
+			return render(request, 'LinkAct/result_page.html', {'error_index':11})
+ 
 		if user is not None:
-			
 			auth.login(request, user)
 			return HttpResponseRedirect('../')
+ 
+		else:
+			return render(request, 'LinkAct/result_page.html', {'error_index':12})
+ 
 		
 	form = LogForm()
 	return render(request, 'LinkAct/login_page.html', {'form':form})
@@ -344,7 +382,7 @@ def check_personal_msg(request):
 		obj = User.objects.get(username=request.user.username)
 		obj.myuser.set_email(params.get('email', ''))
 		obj.myuser.set_nickname(params.get('nickname', ''))
-		obj.myuser.set_birthday(params.get('birthday', ''))
+		#obj.myuser.set_birthday(params.get('birthday', ''))
 		obj.myuser.set_city(params.get('city', ''))
 		
 		return render(request, 'LinkAct/result_page.html', {'user_name':request.user.username, 'has_login':True, 'error_index':9})
@@ -354,18 +392,39 @@ def check_personal_msg(request):
 		form = PersonalInfoForm()
 		form.email = request.user.email
 		form.nickname = request.user.myuser.nickname
-		form.birthday = request.user.myuser.birthday
+		#form.birthday = request.user.myuser.birthday
 		form.city = request.user.myuser.city
-	
-		nickname_value = form.nickname
-		birthday_value = form.birthday
-		print(birthday_value)
-		city_value = form.city
-		email_value = form.email
+		print("here")
+		temp = request.user.myuser.interests
+		print(temp)
+		
+		interest_msg = ""
+		temp_index = ""
+		flag = False
+
+		for index in range(0, len(temp)):			
+			if(temp[index] == "\'"):
+				if flag:
+					flag = False
+					interest_msg = interest_msg + temp_index
+				else:
+					flag = True
+				temp_index = ""
+				continue
+			if len(temp_index) != 0:
+				interest_msg = interest_msg + ','
+			temp_index = temp_index + temp[index]
+			
+
+		print(interest_msg)
+		print(form)
+		print(form.nickname)
+		#print(form.birthday)
+		print(form.city)
+		print(form.email)
 
 		return render(request, 'LinkAct/user_info.html', {'form':form, 'has_login':True, 
-			'user_name':request.user.username, 'nickname_value':nickname_value, 'birthday_value':birthday_value,
-			'city_value':city_value, 'email_value':email_value})
+			'user_name':request.user.username, 'personal_msg':request.user, 'interest_msg':interest_msg})
 
 def set_password_func(request):
 
@@ -399,6 +458,7 @@ def set_password_func(request):
 			return render(request, 'LinkAct/result_page.html',{'error_index':7})
 
 		obj.myuser.set_password(new_password1)
+		log_out(request)
 		return render(request, 'LinkAct/result_page.html', {'error_index':6, 'has_login':False})
 	else:        
 		return render(request, 'LinkAct/user_password.html', {'form':form, 'has_login':True, 

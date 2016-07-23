@@ -85,7 +85,7 @@
 		  	{% url 'register_url' as url6%}
 		  	{% url 'user_password_url' as url7%}
 		  	{% url 'user_info_url' as url8%}
-					   
+			
 
 		  	{% elif error_index == 1%}
 		  	<div class="panel-body">
@@ -141,6 +141,20 @@
 		  	<div class="panel-footer"><p>您的个人信息已经修改成功，点击按钮查看个人信息</p>
 		  	<a class="btn btn-success btn-lg" href="{{ url8 }}" role="button">个人信息</a>
 
+		  	{% elif error_index == 11%}
+		  	<div class="panel-body">
+				登录失败
+		  	</div>
+		  	<div class="panel-footer"><p>不存在该用户</p>
+		  	<a class="btn btn-warning btn-lg" href="{{ url5 }}" role="button">重新登录</a>
+
+		  	{% elif error_index == 12%}
+		  	<div class="panel-body">
+				登录失败
+		  	</div>
+		  	<div class="panel-footer"><p>用户名与密码不匹配</p>
+		  	<a class="btn btn-warning btn-lg" href="{{ url5 }}" role="button">重新登录</a>
+
 
 		  	{% else %}
 		  	<div class="panel-body">
@@ -150,6 +164,9 @@
 		  	
 		  	<a class="btn btn-warning btn-lg" href="{{ url6 }}" role="button">重新操作</a>
 		  
+#10 ----- 用户登录成功
+#11 ----- 不存在该用户
+#12 ----- 用户密码不匹配
 
 		  	{% endif %}
 		  	</div>

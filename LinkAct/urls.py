@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'share/', views.share_page_show, name='share_page_url'),
     url(r'login/', views.log_in, name='log_in_url'),
     url(r'register/', views.user_register, name='register_url'),
-    url(r'^', views.start_page_show, name='start_page_url'),
+    url(r'^$', views.start_page_show, name='start_page_url'),
 ]

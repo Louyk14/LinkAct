@@ -313,7 +313,7 @@ class MyUser(models.Model):
 	def email_user(self, subject, message, from_email = None, **kwargs):
 		self.user.email_user(subject, message, from_email, kwargs)
 
-	def create_user(self, nickname, usernames, passwords):
+	def create_user(self, usernames, passwords, email, nickname, birthday, city, interests):
                 flag = True
                 temp = User.objects.all()
                 for item in temp:
@@ -321,10 +321,13 @@ class MyUser(models.Model):
                                 flag = False
                                 break
                 if flag:
-                        u = User.objects.create_user(username=usernames,password=passwords)
+                        u = User.objects.create_user(username=usernames, password=passwords, email = email)
                         u.save()
                         self.user = u
                         self.nickname = nickname
+                        self.birthday = birthday
+                        self.city = city
+                        self.interests = interests
                         self.save()
                         return True
                 else:

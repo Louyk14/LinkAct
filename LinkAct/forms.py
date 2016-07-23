@@ -5,6 +5,10 @@ from .models import Interest
 from .models import ListField
 from datetime import date
 
+ACTIVITY_STYLE = (('1', '魔兽'), ('2', '明星'), ('3', '球类运动'), 
+    ('4', '游泳'), ('5', '小说'), ('6', '旅行'), ('7', '烹饪'), ('8', '星座'), ('9', '萌宠'),
+    ('10', '养生'), ('11', 'coding'), ('12', '电影'),('13', '动漫'), ('14', 'LOL'))
+
 #注册信息
 class RegisterForm(forms.Form):
     username = forms.CharField(label='用户名',max_length = 20)
@@ -14,13 +18,14 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(label='电子邮箱')
     birthday = forms.DateField(label='生日',initial=date.today)
     city = forms.CharField(label='城市',max_length = 20)
-
+    interest = forms.MultipleChoiceField(label = u'爱好', choices = ACTIVITY_STYLE, widget = forms.CheckboxSelectMultiple())
 
 class PersonalInfoForm(forms.Form):
     nickname = forms.CharField(label='昵称',max_length = 20)
     email = forms.EmailField(label='电子邮箱')
     birthday = forms.DateField(label='生日')
     city = forms.CharField(label='城市',max_length = 20)
+    interest = forms.CharField(label='爱好',max_length = 50)
 
 class SetPasswordForm(forms.Form):
     origin_password = forms.CharField(label='原始密码',widget=forms.PasswordInput())
