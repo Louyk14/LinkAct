@@ -101,10 +101,18 @@
 	  		</div><!-- /.container-fluid -->
 		</nav>
 		{% if form%}
+		
 		<form method="post">
-		    {% csrf_token %}
-		    {{ form }}
-		    <input type="submit" value="提交" />
+			{% csrf_token %}
+		    <label for="id_nickname">昵称:</label>
+    		<input id="id_nickname" type="text" name="nickname" value="{{ nickname_value }}">
+    		<label for="id_email">电子邮箱:</label>
+    		<input id="id_email" type="email" name="email" value="{{ email_value }}">
+    		<label for="id_birthday">生日:</label>
+    		<input id="id_birthday" type="text" name="birthday" value="{{ birthday_value }}">
+    		<label for="id_city">城市:</label>
+    		<input id="id_city" type="text" name="city" value="{{ city_value }}">
+    		<input type="submit" value="修改">
 		</form>
 		{% endif %}
 		<footer class="bs-docs-footer" role="contentinfo">

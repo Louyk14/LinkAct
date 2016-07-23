@@ -356,14 +356,16 @@ def check_personal_msg(request):
 		form.nickname = request.user.myuser.nickname
 		form.birthday = request.user.myuser.birthday
 		form.city = request.user.myuser.city
-		print(form)
-		print(form.nickname)
-		print(form.birthday)
-		print(form.city)
-		print(form.email)
+	
+		nickname_value = form.nickname
+		birthday_value = form.birthday
+		print(birthday_value)
+		city_value = form.city
+		email_value = form.email
 
 		return render(request, 'LinkAct/user_info.html', {'form':form, 'has_login':True, 
-			'user_name':request.user.username})
+			'user_name':request.user.username, 'nickname_value':nickname_value, 'birthday_value':birthday_value,
+			'city_value':city_value, 'email_value':email_value})
 
 def set_password_func(request):
 
