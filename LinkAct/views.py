@@ -20,6 +20,23 @@ import string
 
 base_url = 'http://127.0.0.1:8000'
 
+_interests = {'1': '魔兽', 
+			 '2': '明星', 
+			 '3': '球类运动',
+			 '4': '游泳',
+			 '5': '小说',
+			 '6': '旅行',
+			 '7': '烹饪',
+			 '8': '星座',
+			 '9': '萌宠',
+			 '10': '养生',
+			 '11': 'coding',
+			 '12': '电影',
+			 '13': '动漫',
+			 '14': 'LOL',
+			 }
+
+
 #   search_class表示搜索类别，search_content表示搜索内容,search_content表示搜索的页码号，要在template中动态生成
 #
 #ERROR_INDEX
@@ -253,7 +270,8 @@ def user_register(request):
 		#判定完毕
 		myUser = MyUser()
 		myUser.create_user(usernames, password1, email, nickname, birthday, city, interests)
-		
+		user = auth.authenticate(username=usernames, password=password1)
+		auth.login(request,user)
 		return render(request, 'LinkAct/result_page.html', {'error_index':0})
  
 	return render(request, 'LinkAct/register_page.html', {'form':form})
@@ -406,7 +424,7 @@ def check_personal_msg(request):
 			if(temp[index] == "\'"):
 				if flag:
 					flag = False
-					interest_msg = interest_msg + temp_index
+					interest_msg = interest_msg + _interests[temp_index]
 				else:
 					flag = True
 				temp_index = ""
