@@ -134,7 +134,7 @@ def start_page_show(request):
 	else:
 		has_login = True
 		img = Img.objects.all()[0]
-		print(img.img.url)
+		
 		return render(request, 'LinkAct/start_page.html',
 		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#

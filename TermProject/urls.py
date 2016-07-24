@@ -23,4 +23,4 @@ urlpatterns = [
     url(r'^upload', 'LinkAct.views.upload_img'),
     url(r'^admin/', admin.site.urls),
     url(r'', include('LinkAct.urls')),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_URL)
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

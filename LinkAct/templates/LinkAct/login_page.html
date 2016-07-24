@@ -70,6 +70,40 @@
 			<p id="title">Link The Activties</p>
 			<p id="subtitle">make the life better</p>
 		</div>
+
+		<form class="form-horizontal">
+			<fieldset>
+
+			<!-- Form Name -->
+			<legend>请登录</legend>
+			<!-- Text input-->
+			<div class="form-group">
+			  	<label class="col-md-4 control-label" for="username">用户名</label>  
+			  	<div class="col-md-4">
+			  		<input id="username" name="username" type="text" placeholder="请输入用户名" class="form-control input-md" required="">
+			  	</div>
+			</div>
+
+			<!-- Password input-->
+			<div class="form-group">
+			  	<label class="col-md-4 control-label" for="password">密码</label>
+			  	<div class="col-md-5">
+			    	<input id="password" name="password" type="password" placeholder="请输入密码" class="form-control input-md" required="">
+			    	<span class="help-block">找回密码</span>
+			  	</div>
+			</div>
+
+			<!-- Button (Double) -->
+			<div class="form-group">
+			  	<label class="col-md-4 control-label" for="login_btn"></label>
+			  	<div class="col-md-8">
+			    	<button id="login_btn" name="login_btn" class="btn btn-success">登录</button>
+			    	<button id="register_btn" name="register_btn" class="btn btn-primary">注册</button>
+			  	</div>
+			</div>
+
+			</fieldset>
+		</form>
 		<form method="post">
 		    {% csrf_token %}
 		    {{ form }}
