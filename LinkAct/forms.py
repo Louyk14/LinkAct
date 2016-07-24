@@ -2,12 +2,18 @@ from django import forms
 from .models import MyUser
 from .models import Activity
 from .models import Interest
-from .models import ListField
 from datetime import date
+from LinkAct import models
 
-INTERESTS_STYLE = (('1', '魔兽'), ('2', '明星'), ('3', '球类运动'), 
-    ('4', '游泳'), ('5', '小说'), ('6', '旅行'), ('7', '烹饪'), ('8', '星座'), ('9', '萌宠'),
-    ('10', '养生'), ('11', 'coding'), ('12', '电影'),('13', '动漫'), ('14', 'LOL'))
+def get_interests_style():
+    a = []
+    print('这里以下')
+    for x in Interest.objects.all():
+        t = (x.id, x.get_content())
+        a.append(t)
+        print(tuple(a))
+    return tuple(a)
+    print('这里以上')
 
 #注册信息
 class RegisterForm(forms.Form):
@@ -18,7 +24,8 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(label='电子邮箱')
     birthday = forms.DateField(label='生日',initial=date.today)
     city = forms.CharField(label='城市',max_length = 20)
-    interest = forms.MultipleChoiceField(label = u'爱好', choices = INTERESTS_STYLE, widget = forms.CheckboxSelectMultiple())
+
+    interest = forms.MultipleChoiceField(label = u'爱好', choices = get_interests_style(), widget = forms.CheckboxSelectMultiple())
 
 class PersonalInfoForm(forms.Form):
     nickname = forms.CharField(label='昵称',max_length = 20)
@@ -34,26 +41,15 @@ class SetPasswordForm(forms.Form):
 
 #创建活动信息
 class ActForm(forms.Form):
-    #状态
-    status = forms.CharField(max_length = 20)
-    #发起人ID
-    creator = forms.IntegerField()
-    #参与人ID
-    participants = ListField(default = [])
-    #地点
     locale = forms.CharField(max_length = 20)
     #主题
-    theme = forms.CharField(max_length = 20)
-    #发起时间
-    create_date = forms.DateField(initial = date.today)
+    theme = forms.MultipleChoiceField(label=u'活动类型', choices=get_interests_style(), widget=forms.CheckboxSelectMultiple())
     #开始时间
     start_date = forms.DateField(initial = date.today)
     #结束时间
     end_data = forms.DateField(initial = date.today)
     #发起介绍
-    introduction = forms.CharField(max_length= 200)
-    #点赞人
-    supporters = ListField(default = [])
+    introduction = forms.CharField(max_length = 300)
         
 #发起评论信息
 class CommentForm(forms.Form):
