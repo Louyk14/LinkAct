@@ -15,26 +15,10 @@ from .forms import PersonalInfoForm
 from .forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from LinkAct.models import Img
+from LinkAct.models import Img, Interest
 import string
 
 base_url = 'http://127.0.0.1:8000'
-
-_interests = {'1': '魔兽', 
-			 '2': '明星', 
-			 '3': '球类运动',
-			 '4': '游泳',
-			 '5': '小说',
-			 '6': '旅行',
-			 '7': '烹饪',
-			 '8': '星座',
-			 '9': '萌宠',
-			 '10': '养生',
-			 '11': 'coding',
-			 '12': '电影',
-			 '13': '动漫',
-			 '14': 'LOL',
-			 }
 
 
 #   search_class表示搜索类别，search_content表示搜索内容,search_content表示搜索的页码号，要在template中动态生成
@@ -133,7 +117,11 @@ def start_page_show(request):
 		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
-		img = Img.objects.all()[0]
+		imgs = Img.objects.filter(id = user.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
 		return render(request, 'LinkAct/start_page.html',
 		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
@@ -157,7 +145,11 @@ def linker_page_show(request):
 		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
-		img = Img.objects.all()[0]
+		imgs = Img.objects.filter(id = user.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
 		return render(request, 'LinkAct/linker_page.html',
 		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
@@ -180,7 +172,11 @@ def explore_page_show(request):
 		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
-		img = Img.objects.all()[0]
+		imgs = Img.objects.filter(id = user.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
 		return render(request, 'LinkAct/explore_page.html',
 		{'user_name':user.username, 'has_login':has_login, 'img':img})
 	#-----------登录判定----------#
@@ -203,7 +199,11 @@ def share_page_show(request):
 		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
-		img = Img.objects.all()[0]
+		imgs = Img.objects.filter(id = user.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
 		return render(request, 'LinkAct/share_page.html',
 		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
@@ -226,7 +226,11 @@ def activities_page_show(request):
 		{'user_name':user.username, 'has_login':has_login})
 	else:
 		has_login = True
-		img = Img.objects.all()[0]
+		imgs = Img.objects.filter(id = user.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
 		return render(request, 'LinkAct/activities_page.html',
 		{'user_name':user.username, 'has_login':has_login, 'img': img})
 	#-----------登录判定----------#
@@ -254,13 +258,13 @@ def user_register(request):
 			#信息不完整
 			print('incomplete info')
 			return render(request, 'LinkAct/result_page.html', {'error_index':3})
-		if password1 != password2:
-			print('password1 is not equal to password2')
-			return render(request, 'LinkAct/result_page.html', {'error_index':1})
 		if len(User.objects.filter(username=usernames)):
 			#用户名已存在
 			print('username already exists')
 			return render(request, 'LinkAct/result_page.html', {'error_index':2})
+		if password1 != password2:
+			print('password1 is not equal to password2')
+			return render(request, 'LinkAct/result_page.html', {'error_index':1})
 		#判定完毕
 		myUser = MyUser()
 		myUser.create_user(usernames, password1, email, nickname, birthday, city, interests)
@@ -389,10 +393,6 @@ def check_personal_msg(request):
 			print('logout successfully')
 	#-----------登录判定----------#
 
-	#-----------------------------#
-	img = Img.objects.all()[0]
-	#-----------------------------#
-
 	if request.method == 'POST':
 		params = request.POST
 		obj = User.objects.get(username=request.user.username)
@@ -401,11 +401,23 @@ def check_personal_msg(request):
 		#obj.myuser.set_birthday(params.get('birthday', ''))
 		obj.myuser.set_city(params.get('city', ''))
 		
+		imgs = Img.objects.filter(id = obj.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
+		
 		return render(request, 'LinkAct/result_page.html', {'user_name':request.user.username, 'has_login':True, 
 																'error_index':9, 'img': img})
 
 	#default render#
 	else :        
+		imgs = Img.objects.filter(id = request.user.myuser.get_head())
+		if len(imgs) != 0:
+			img = imgs[0]
+		else:
+			img = Img.objects.all()[0]
+			
 		form = PersonalInfoForm()
 		form.email = request.user.email
 		form.nickname = request.user.myuser.nickname
@@ -419,7 +431,7 @@ def check_personal_msg(request):
 		for s in temp:
 			if len(interest_msg) != 0:
 				interest_msg += '，'
-			interest_msg += _interests[s]
+			interest_msg += Interest.objects.get(id = int(s)).get_content()
 		
 			
 
@@ -445,7 +457,11 @@ def set_password_func(request):
 			print('logout successfully')
 
 	#-----------------------------#
-	img = Img.objects.all()[0]
+	imgs = Img.objects.filter(id = user.myuser.get_head())
+	if len(imgs) != 0:
+		img = imgs[0]
+	else:
+		img = Img.objects.all()[0]
 	#-----------------------------#
 
 	#应该修改这里#
@@ -577,4 +593,5 @@ def upload_img(request):
 	if request.method == 'POST':
 		new_img = Img(img = request.FILES.get('img'))
 		new_img.save()
+		request.user.myuser.set_head(new_img.get_id())
 	return render(request, 'LinkAct/uploadimg.html')
