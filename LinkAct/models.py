@@ -50,7 +50,7 @@ class MyUser(models.Model):
 	#所在城市
 	city = models.CharField(max_length = 20)
 	#头像
-	head = models.ImageField(upload_to = 'media/', default = 'media/no_img.jpg')
+	head = models.IntegerField(default = -1)
 	#已完成活动：参与&发起
 	participate_terminative_acts = ListField(default = [])
 	create_terminative_acts = ListField(default = [])
