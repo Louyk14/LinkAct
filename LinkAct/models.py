@@ -109,6 +109,8 @@ class MyUser(models.Model):
 		if isinstance(self.interests, str):
 			return json.loads(self.interests)
 		return self.interests
+	def get_head(self):
+		return self.head
 
 
 	#set attribute
@@ -327,6 +329,9 @@ class MyUser(models.Model):
 			self.save()
 			return True
 		return False
+	def set_head(self, head):
+		self.head = head
+		self.save()
 
 	#tools
 	def check_password(self, raw_password):
@@ -699,3 +704,7 @@ class Comment(models.Model):
 		return self.content
 class Img(models.Model):
 	img = models.ImageField(upload_to = 'upload')
+	def get_id(self):
+		return self.id
+	def get_img(self):
+		return self.img
