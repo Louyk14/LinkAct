@@ -365,10 +365,17 @@ class MyUser(models.Model):
 		a = self.user
 		a.delete()
 		self.delete()
-	def create_activity(self, theme):
+	def create_activity(self, theme, locale, start_date, end_date, introduction):
 		if not isinstance(theme, list):
 			return false
-		a = Activity(theme = theme, creator = self.id)
+		a = Activity()
+		a.theme = json.dumps(theme)
+		a.locale = locale
+		a.start_date = start_date
+		a.end_date = end_date 
+		a.introduction = introduction
+		a.creator = self.id
+		a.status = 'created'
 		a.save()
 		flag =  self.append_create_ongoing_acts(a.id)
 		return flag
@@ -511,7 +518,7 @@ class Activity(models.Model):
 	#开始时间
 	start_date = models.DateField(default = date.today)
 	#结束时间
-	end_data = models.DateField(default = date.today)
+	end_date = models.DateField(default = date.today)
 	#发起介绍
 	introduction = models.TextField()
 	#点赞人
