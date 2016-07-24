@@ -123,26 +123,29 @@ class MyUser(models.Model):
 		self.birthday = birthday
 		self.save()
 	def set_friends(self, friends):
-		self.friends = friends
+		if isinstance(friends, str):
+			self.friends = friends
+		else:
+			self.friends = json.dumps(friends)
 		self.save()
 	def append_friends(self, friend_id):
 		f = self.get_friends()
 		if friend_id not in f:
 			f.append(friend_id)
-			self.friends = f
+			self.friends = json.dumps(f)
 			self.save()
 			return True
-		self.friends = f
+		self.friends = json.dumps(f)
 		self.save()
 		return False
 	def remove_friends(self, friend_id):
 		f = self.get_friends()
 		if friend_id in f:
 			f.remove(friend_id)
-			self.friends = f
+			self.friends = json.dumps(f)
 			self.save()
 			return True
-		self.friends = f
+		self.friends = json.dumps(f)
 		self.save()
 		return False
 	# def set_website(self, website):
@@ -156,144 +159,162 @@ class MyUser(models.Model):
 		self.city = city
 		self.save()
 	def set_participate_terminative_acts(self, participate_terminative_acts):
-		self.participate_terminative_acts = participate_terminative_acts
+		if isinstance(participate_terminative_acts, str):
+			self.participate_terminative_acts = participate_terminative_acts
+		else:
+			self.participate_terminative_acts = json.dumps(participate_terminative_acts)
 		self.save()
 	def append_participate_terminative_acts(self, act_id):
 		pta = self.get_participate_terminative_acts()
 		if act_id not in pta:
 			pta.append(act_id)
-			self.participate_terminative_acts = pta
+			self.participate_terminative_acts = json.dumps(pta)
 			self.save()
 			return True
-		self.participate_terminative_acts = pta
+		self.participate_terminative_acts = json.dumps(pta)
 		self.save()
 		return False
 	def remove_participate_terminative_acts(self, act_id):
 		pta = self.get_participate_terminative_acts()
 		if act_id in pta:
 			pta.remove(act_id)
-			self.participate_terminative_acts = pta
+			self.participate_terminative_acts = json.dumps(pta)
 			self.save()
 			return True
-		self.participate_terminative_acts = pta
+		self.participate_terminative_acts = json.dumps(pta)
 		self.save()
 		return False
 	def set_create_terminative_acts(self, create_terminative_acts):
-		self.create_terminative_acts = create_terminative_acts
+		if isinstance(create_terminative_acts, str):
+			self.create_terminative_acts = create_terminative_acts
+		else:
+			self.create_terminative_acts = json.dumps(create_terminative_acts)
 		self.save()
 	def append_create_terminative_acts(self, act_id):
 		cta = self.get_create_terminative_acts()
 		if act_id not in cta:
 			cta.append(act_id)
-			self.create_terminative_acts = cta
+			self.create_terminative_acts = json.dumps(cta)
 			self.save()
 			return True
-		self.create_terminative_acts = cta
+		self.create_terminative_acts = json.dumps(cta)
 		self.save()
 		return False
 	def remove_create_terminative_acts(self, act_id):
 		cta = self.get_create_terminative_acts()
 		if act_id in cta:
 			cta.remove(act_id)
-			self.create_terminative_acts = cta
+			self.create_terminative_acts = json.dumps(cta)
 			self.save()
 			return True
-		self.create_terminative_acts = cta
+		self.create_terminative_acts = json.dumps(cta)
 		self.save()
 		return False
 	def set_participate_ongoing_acts(self, participate_ongoing_acts):
-		self.participate_ongoing_acts = participate_ongoing_acts
+		if isinstance(participate_ongoing_acts, str):
+			self.participate_ongoing_acts = participate_ongoing_acts
+		else:
+			self.participate_ongoing_acts = json.dumps(participate_ongoing_acts)
 		self.save()
 	def append_participate_ongoing_acts(self, act_id):
 		poa = self.get_participate_ongoing_acts()
 		if act_id not in poa:
 			poa.append(act_id)
-			self.participate_ongoing_acts = poa
+			self.participate_ongoing_acts = json.dumps(poa)
 			self.save()
 			return True
-		self.participate_ongoing_acts = poa
+		self.participate_ongoing_acts = json.dumps(poa)
 		self.save()
 		return False
 	def remove_participate_ongoing_acts(self, act_id):
 		poa = self.get_participate_ongoing_acts()
 		if act_id in poa:
 			poa.remove(act_id)
-			self.participate_ongoing_acts = poa
+			self.participate_ongoing_acts = json.dumps(poa)
 			self.save()
 			return True
-		self.participate_ongoing_acts = poa
+		self.participate_ongoing_acts = json.dumps(poa)
 		self.save()
 		return False
 	def set_create_ongoing_acts(self, create_ongoing_acts):
-		self.create_ongoing_acts = create_ongoing_acts
+		if isinstance(create_ongoing_acts, str):
+			self.create_ongoing_acts = create_ongoing_acts
+		else:
+			self.create_ongoing_acts = json.dumps(create_ongoing_acts)
 		self.save()
 	def append_create_ongoing_acts(self, act_id):
 		coa = self.get_create_ongoing_acts()
 		if act_id not in coa:
 			coa.append(act_id)
-			self.create_ongoing_acts = coa
+			self.create_ongoing_acts = json.dumps(coa)
 			self.save()
 			return True
-		self.create_ongoing_acts = coa
+		self.create_ongoing_acts = json.dumps(coa)
 		self.save()
 		return False
 	def remove_create_ongoing_acts(self, act_id):
 		coa = self.get_create_ongoing_acts()
 		if act_id in coa:
 			coa.remove(act_id)
-			self.create_ongoing_acts = coa
+			self.create_ongoing_acts = json.dumps(coa)
 			self.save()
 			return True
-		self.create_ongoing_acts = coa
+		self.create_ongoing_acts = json.dumps(coa)
 		self.save()
 		return False
 	def set_commented_acts(self, commented_acts):
-		self.commented_acts = commented_acts
+		if isinstance(commented_acts, str):
+			self.commented_acts = commented_acts
+		else:
+			self.commented_acts = json.dumps(commented_acts)
 		self.save()
 	def append_commented_acts(self, act_id):
 		ca = self.get_commented_acts()
 		if act_id not in ca:
 			ca.append(act_id)
-			self.commented_acts = ca
+			self.commented_acts = json.dumps(ca)
 			self.save()
 			return True
-		self.commented_acts = ca
+		self.commented_acts = json.dumps(ca)
 		self.save()
 		return False
 	def remove_commented_acts(self, act_id):
 		ca = self.get_commented_acts()
 		if act_id in ca:
 			ca.remove(act_id)
-			self.commented_acts = ca
+			self.commented_acts = json.dumps(ca)
 			self.save()
 			return True
-		self.commented_acts = ca
+		self.commented_acts = json.dumps(ca)
 		self.save()
 		return False
 	def set_gender(self, gender):
 		self.gender = gender
 		self.save()
 	def set_interests(self, interests):
-		self.interests = interests
+		if isinstance(interests, str):
+			self.interests = interests
+		else:
+			self.interests = json.dumps(interests)
 		self.save()
 	def append_interests(self, interest_id):
 		ite = self.get_interests()
 		if interest_id not in ite:
 			ite.append(interest_id)
-			self.interests = ite
+			self.interests = json.dumps(ite)
 			self.save()
 			return True
-		self.interests = ite
+		self.interests = json.dumps(ite)
 		self.save()
 		return False
 	def remove_interests(self, interest_id):
 		ite = self.get_interests()
 		if interest_id in ite:
 			ite.remove(interest_id)
-			self.interests = ite
+			self.interests = json.dumps(ite)
 			self.save()
 			return True
-		self.interests = ite
+		self.interests = json.dumps(ite)
 		self.save()
 		return False
 	def set_password(self, raw_password):
@@ -327,7 +348,10 @@ class MyUser(models.Model):
                         self.nickname = nickname
                         self.birthday = birthday
                         self.city = city
-                        self.interests = interests
+                        if isinstance(interests, list):
+                        	self.interests = json.dumps(interests)
+                        elif isinstance(interests, str):
+                        	self.interests = interests
                         self.save()
                         return True
                 else:
@@ -526,52 +550,58 @@ class Activity(models.Model):
 		self.creator = creator
 		self.save()
 	def set_participants(self, participants):
-		self.participants = participants
+		if isinstance(participants, str):
+			self.participants = participants
+		else:
+			self.participants = json.dumps(participants)
 		self.save()
 	def append_participants(self, participant_id):
 		p = self.get_participants()
 		if participant_id not in p:
 			p.append(participant_id)
-			self.participants = p
+			self.participants = json.dumps(p)
 			self.save()
 			return True
-		self.participants = p
+		self.participants = json.dumps(p)
 		self.save()
 		return False
 	def remove_participants(self, participant_id):
 		p = self.get_participants()
 		if participant_id in p:
 			p.remove(participant_id)
-			self.participants = p
+			self.participants = json.dumps(p)
 			self.save()
 			return True
-		self.participants = p
+		self.participants = json.dumps(p)
 		self.save()
 		return False
 	def set_locale(self, locale):
 		self.locale = locale
 		self.save()
 	def set_theme(self, theme):
-		self.theme = theme
+		if isinstance(theme, str):
+			self.theme = theme
+		else:
+			self.theme = json.dumps(theme)
 		self.save()
 	def append_theme(self, theme_id):
 		t = self.get_theme()
 		if theme_id not in t:
 			t.append(theme_id)
-			self.theme = t
+			self.theme = json.dumps(t)
 			self.save()
 			return True
-		self.theme = t
+		self.theme = json.dumps(t)
 		self.save()
 		return False
 	def remove_theme(self, theme_id):
 		t = self.get_theme()
 		if theme_id in t:
 			t.remove(theme_id)
-			self.theme = t
+			self.theme = json.dumps(t)
 			self.save()
 			return True
-		self.theme = t
+		self.theme = json.dumps(t)
 		self.save()
 		return False
 	def update_start_date(self):
@@ -584,26 +614,29 @@ class Activity(models.Model):
 		self.introduction = introduction
 		self.save()
 	def set_supporters(self, supporters):
-		self.supporters = supporters
+		if isinstance(supporters, str):
+			self.supporters = supporters
+		else:
+			self.supporters = json.dumps(supporters)
 		self.save()
 	def append_supporters(self, supporter_id):
 		s = self.get_supporters()
 		if supporter_id not in s:
 			s.append(supporter_id)
-			self.supporters = s
+			self.supporters = json.dumps(s)
 			self.save()
 			return True
-		self.supporters = s
+		self.supporters = json.dumps(s)
 		self.save()
 		return False
 	def remove_supporters(self, supporter_id):
 		s = self.get_supporters()
 		if supporter_id in s:
 			s.remove(supporter_id)
-			self.supporters = s
+			self.supporters = json.dumps(s)
 			self.save()
 			return True
-		self.supporters = s
+		self.supporters = json.dumps(s)
 		self.save()
 		return False
 	def get_theme_content(self):
