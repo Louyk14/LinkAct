@@ -521,25 +521,55 @@ def search_people(request):
 		endPos = int(search_page) * 10
 		result = answer[startPos:endPos]
 		return render(request, 'msgboard/explore_page.html', {'answer':answer})    
-
-
-								
-#查找活动   //搜索页面不同于主页面 默认每页10条
+		
+#查找活动   //搜索页面不同于主页面 默认每页10条，所有展示活动的界面都绑定此函数
+                #urls.py r'^searchActs/'    绝对路径为127.0.0.0.1/searchActs/      因而展示界面上的各详情链接为  <a href='../showActs/?id='+ {{ result[index].id }} + '&last_page=' + {{ current_url }}>
+                #“下一页”按钮链接应为<a href={{ next_page_url }}>
 def search_act(request):
-	if request.method == 'GET':
-		search_class = request.GET['search_class']
-		search_content = request.GET['search_content'] 
-		search_page = request.GET['search_page']
+    if request.method == 'GET':
+        #搜索类别
+        search_class = request.GET['search_class']
+        #搜索内容
+        search_content = request.GET['search_content'] 
+        #搜索页码
+        search_page = request.GET['search_page']
+        #排序方法，为1时表示按照类别倒序排序，不搜索只排序
+        search_order = request.GET['search_order']
 
-		#不同检索方式
-		if search_class == 'theme':
-			answer = Activity.objects.all()[0].activity_theme_filter(Activity.objects.all(), [search_class])
+        if search_order == '1':
+            answer = Activity.objects.all().order_by(search_class)
 
-		startPos = (int(search_page) - 1) * 10
-		endPos = int(search_page) * 10
-		result = answer[startPos:endPos]
+        #不同检索方式
+        elif search_class == 'theme':
+            answer = Activity.objects.all()[0].activity_theme_filter(Activity.objects.all(), [search_class])
 
-		return render(request, 'msgboard/explore_page.html', {'result':result})
+        elif search_class == '':
+
+        startPos = (int(search_page) - 1) * 10
+        endPos = int(search_page) * 10
+        result = answer[startPos:endPos]
+
+        temp_url = request.get_full_path()
+        next_page_url = request.path + "?search_class=" + search_class + "&search_content=" + search_content + "&search_order=" + search_order + "&search_page=" + (int(search_page) + 1)
+
+        return render(request, 'msgboard/searchActs.html', {'result':result, 'current_page':int(search_page)}, 'current_url':request.get_full_path(), 'next_page_url':next_page_url})
+
+
+#展示具体活动的界面，返回按钮的链接应为<a href={{ last_page }}>
+def show_act(request):
+    if request.method == 'GET':
+        index = int(request.GET['id'])
+        current_page = request.GET['last_page']
+        act_obj = Activity.objects.filter(id=index)
+
+        actForm = ActForm()
+
+        #是否活动发起人，决定了是否能修改活动信息
+        isCreator = False
+        if request.user.id == act_obj.creator:
+            isCreator = True
+
+        return render(request, 'LinkAct/showAct.html', {'form':actForm, 'act_obj':act_obj, 'last_page':current_page, 'isCreator':isCreator})
 
 #添加好友
 def request_for_friend(request):
@@ -547,19 +577,6 @@ def request_for_friend(request):
 
 def send_emails(email_from, email_to, title, content):
 	send_mail('wf', 'wf', "Louyk14@163.com", "Louyk14@163.com", fail_silently=False)
-
-
-
-def act_show_page(request):
-	if request.method == 'GET':
-		page_num = request.GET['page_num']
-		#按create_date排序    acts = sorted()
-
-		startPos = (int(page_num) - 1) * 10
-		endPos = int(page_num) * 10
-		answer = acts[startPos:endPos]
-		
-		return render(request, 'msgboard/show.html', {'answer':answer})
 
 
 # Create your views here.
