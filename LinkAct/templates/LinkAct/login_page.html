@@ -17,6 +17,7 @@
 		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{%static "css/navigation.css" %}">
+		<script src="{%static "js/login.js"%}"></script>
 	
 	</head>
 	<body margin='0px'>
@@ -71,15 +72,16 @@
 			<p id="subtitle">make the life better</p>
 		</div>
 
-		<form class="form-horizontal">
+		<form class="form-horizontal" method='post'>
+			{% csrf_token %}
 			<fieldset>
 
 			<!-- Form Name -->
-			<legend>请登录</legend>
+			<legend style='text-align:center;'>请登录</legend>
 			<!-- Text input-->
 			<div class="form-group">
 			  	<label class="col-md-4 control-label" for="username">用户名</label>  
-			  	<div class="col-md-4">
+			  	<div class="col-md-3">
 			  		<input id="username" name="username" type="text" placeholder="请输入用户名" class="form-control input-md" required="">
 			  	</div>
 			</div>
@@ -87,7 +89,7 @@
 			<!-- Password input-->
 			<div class="form-group">
 			  	<label class="col-md-4 control-label" for="password">密码</label>
-			  	<div class="col-md-5">
+			  	<div class="col-md-3">
 			    	<input id="password" name="password" type="password" placeholder="请输入密码" class="form-control input-md" required="">
 			    	<span class="help-block">找回密码</span>
 			  	</div>
@@ -98,16 +100,10 @@
 			  	<label class="col-md-4 control-label" for="login_btn"></label>
 			  	<div class="col-md-8">
 			    	<button id="login_btn" name="login_btn" class="btn btn-success">登录</button>
-			    	<button id="register_btn" name="register_btn" class="btn btn-primary">注册</button>
 			  	</div>
 			</div>
 
 			</fieldset>
-		</form>
-		<form method="post">
-		    {% csrf_token %}
-		    {{ form }}
-		    <input type="submit" value="Submit" />
 		</form>
 
 

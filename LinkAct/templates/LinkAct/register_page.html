@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
-		<!--<style type="text/css">
-			li{
-				float: left;
-				list-style: none;
-				margin-left: 40px;
-				font-size: 20px;
-			}
-		</style>*/-->
-
 		<meta charset='utf-8'>
 		<title>Be A Linker</title>
 		<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -27,6 +17,7 @@
 		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		{% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{%static "css/navigation.css" %}">
+		<script src="{%static "js/register.js" %}"></script>
 	
 	</head>
 	<body margin='0px'>
@@ -82,10 +73,55 @@
 		</div>
 
 		<!--中期检查后这里需要重新设计一下-->
-		<form method="post">
+		<form class="form-horizontal" method="post">
 		    {% csrf_token %}
-		    {{ form }}
-		    <input type="submit" value="Submit" />
+			<fieldset>
+
+				<!-- Form Name -->
+				<legend style='text-align:center;'>注册您的新账户</legend>
+
+				<!-- Text input-->
+				<div class="form-group">
+				    <label class="col-md-4 control-label" for="username">用户名</label>  
+				    <div class="col-md-4">
+	    				<input id="username" name="username" type="text" placeholder="请输入用户名" class="form-control input-md" required="">
+					</div>
+				</div>
+
+				<!-- Password input-->
+				<div class="form-group">
+				  	<label class="col-md-4 control-label" for="password1">密码</label>
+				  	<div class="col-md-4">
+				    	<input id="password1" name="password1" type="password" placeholder="请输入密码" class="form-control input-md" required="">
+				    </div>
+				</div>
+
+				<!-- Password input-->
+				<div class="form-group">
+				  	<label class="col-md-4 control-label" for="password2">请再次输入密码</label>
+				  	<div class="col-md-4">
+				    	<input id="password2" name="password2" type="password" placeholder="请输入密码" class="form-control input-md" required="">
+				    
+				  	</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  	<label class="col-md-4 control-label" for="email">电子邮箱</label>  
+				  	<div class="col-md-4">
+				  		<input id="email" name="email" type="email" placeholder="请输入合法的电子邮箱" class="form-control input-md" required="">
+				  		<span class="help-block">我们将会向此电子邮箱发出验证连接</span>  
+				  	</div>
+				</div>
+
+				<!-- Button -->
+				<div class="form-group">
+				  	<label class="col-md-4 control-label" for="singlebutton"></label>
+				  	<div class="col-md-4">
+				    	<button id="singlebutton" name="singlebutton" class="btn btn-primary">注册</button>
+				  	</div>
+				</div>
+			</fieldset>
 		</form>
 
 

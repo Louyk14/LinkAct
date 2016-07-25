@@ -7,13 +7,13 @@ from LinkAct import models
 
 def get_interests_style():
     a = []
-    print('这里以下')
+
     for x in Interest.objects.all():
         t = (x.id, x.get_content())
         a.append(t)
         print(tuple(a))
     return tuple(a)
-    print('这里以上')
+
 
 #注册信息
 class RegisterForm(forms.Form):

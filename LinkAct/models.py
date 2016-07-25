@@ -110,6 +110,9 @@ class MyUser(models.Model):
 			return json.loads(self.interests)
 		return self.interests
 	def get_head(self):
+
+		#
+
 		return self.head
 
 
