@@ -437,7 +437,8 @@ def check_personal_msg(request):
 		if interest_msg == "":
 			interest_msg = "未填写"	
 
-		# print(interest_msg)
+
+		print(interest_msg)
 		# print(form)
 		# print(form.nickname)
 		# #print(form.birthday)
