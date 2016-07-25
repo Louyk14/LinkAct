@@ -9,31 +9,6 @@ import string
 
 # Create your models here.
 #show what front page need
-class ListField(models.TextField):
-	__metaclass__ = models.SubfieldBase
-	description = "Stores a python list"
-
-	def __init__(self, *args, **kwargs):
-		super(ListField, self).__init__(*args, **kwargs)
-
-	def to_python(self, value):
-		if not value:
-			value = []
-
-		if isinstance(value, list):
-			return value
-
-		return ast.literal_eval(value)
-
-	def get_prep_value(self, value):
-		if value is None:
-			return value
-
-		return str(value)
-
-	def value_to_string(self, obj):
-		value = self._get_val_from_obj(obj)
-		return self.get_db_prep_value(value)
 
 	
 class MyUser(models.Model):
@@ -44,7 +19,7 @@ class MyUser(models.Model):
 	#生日
 	birthday = models.DateField(default = date.today)
 	#好友
-	friends = ListField(default = [])
+	friends = models.CharField(max_length = 300, default = '[]')
 	#主页地址
 	website = models.URLField()
 	#所在城市
@@ -52,17 +27,17 @@ class MyUser(models.Model):
 	#头像
 	head = models.IntegerField(default = -1)
 	#已完成活动：参与&发起
-	participate_terminative_acts = ListField(default = [])
-	create_terminative_acts = ListField(default = [])
+	participate_terminative_acts = models.CharField(max_length = 300, default = '[]')
+	create_terminative_acts = models.CharField(max_length = 300, default = '[]')
 	#进行中活动：参与&发起
-	participate_ongoing_acts = ListField(default = [])
-	create_ongoing_acts = ListField(default = [])
+	participate_ongoing_acts = models.CharField(max_length = 300, default = '[]')
+	create_ongoing_acts = models.CharField(max_length = 300, default = '[]')
 	#评论过的活动
-	commented_acts = ListField(default = [])
+	commented_acts = models.CharField(max_length = 300, default = '[]')
 	#性别
 	gender = models.CharField(max_length = 20)
 	#兴趣
-	interests = ListField(default = [])
+	interests = models.CharField(max_length = 300, default = '[]')
 
 	#get attribute
 	def get_username(self):
@@ -110,9 +85,6 @@ class MyUser(models.Model):
 			return json.loads(self.interests)
 		return self.interests
 	def get_head(self):
-
-		#
-
 		return self.head
 
 
@@ -342,7 +314,7 @@ class MyUser(models.Model):
 	def email_user(self, subject, message, from_email = None, **kwargs):
 		self.user.email_user(subject, message, from_email, kwargs)
 
-	def create_user(self, usernames, passwords, email, nickname, birthday, city, interests):
+	def create_user(self, usernames, passwords, email):
                 flag = True
                 temp = User.objects.all()
                 for item in temp:
@@ -353,13 +325,10 @@ class MyUser(models.Model):
                         u = User.objects.create_user(username=usernames, password=passwords, email = email)
                         u.save()
                         self.user = u
-                        self.nickname = nickname
-                        self.birthday = birthday
-                        self.city = city
-                        if isinstance(interests, list):
-                        	self.interests = json.dumps(interests)
-                        elif isinstance(interests, str):
-                        	self.interests = interests
+                        self.nickname = ''
+                        self.birthday = date(1970, 1, 1)
+                        self.city = ''
+                        self.interests = '[]'
                         self.save()
                         return True
                 else:
@@ -511,11 +480,11 @@ class Activity(models.Model):
 	#发起人ID
 	creator = models.IntegerField()
 	#参与人ID
-	participants = ListField(default = [])
+	participants = models.CharField(max_length = 300, default = '[]')
 	#地点
 	locale = models.CharField(max_length = 20)
 	#主题
-	theme = ListField(default = [])
+	theme = models.CharField(max_length = 300, default = '[]')
 	#发起时间
 	create_date = models.DateField(default = date.today)
 	#开始时间
@@ -525,7 +494,7 @@ class Activity(models.Model):
 	#发起介绍
 	introduction = models.TextField()
 	#点赞人
-	supporters = ListField(default = [])
+	supporters = models.CharField(max_length = 300, default = '[]')
 
 	#get attribute
 	def get_status(self):
