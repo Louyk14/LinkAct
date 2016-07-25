@@ -47,7 +47,7 @@ class ActForm(forms.Form):
     #开始时间
     start_date = forms.DateField(initial = date.today)
     #结束时间
-    end_data = forms.DateField(initial = date.today)
+    end_date = forms.DateField(initial = date.today)
     #发起介绍
     introduction = forms.CharField(max_length = 300)
         
