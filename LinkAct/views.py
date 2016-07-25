@@ -125,10 +125,10 @@ def start_page_show(request):
 		imgs = Img.objects.filter(id = user.myuser.get_head())
 		if len(imgs) != 0:
 			img = imgs[0]
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/start_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'img': img, 'has_own_avatar':True})
 		else:
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/start_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'has_own_avatar':False})
 	#-----------登录判定----------#
 
@@ -183,10 +183,10 @@ def explore_page_show(request):
 		imgs = Img.objects.filter(id = user.myuser.get_head())
 		if len(imgs) != 0:
 			img = imgs[0]
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/explore_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'img': img, 'has_own_avatar':True})
 		else:
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/explore_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'has_own_avatar':False})
 	#-----------登录判定----------#
 
@@ -211,10 +211,10 @@ def share_page_show(request):
 		imgs = Img.objects.filter(id = user.myuser.get_head())
 		if len(imgs) != 0:
 			img = imgs[0]
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/share_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'img': img, 'has_own_avatar':True})
 		else:
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/share_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'has_own_avatar':False})
 	#-----------登录判定----------#
 
@@ -239,10 +239,10 @@ def activities_page_show(request):
 		imgs = Img.objects.filter(id = user.myuser.get_head())
 		if len(imgs) != 0:
 			img = imgs[0]
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/activities_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'img': img, 'has_own_avatar':True})
 		else:
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/activities_page.html',
 			{'user_name':user.username, 'has_login':has_login, 'has_own_avatar':False})
 	#-----------登录判定----------#
 
@@ -406,10 +406,10 @@ def check_personal_msg(request):
 		imgs = Img.objects.filter(id = obj.myuser.get_head())
 		if len(imgs) != 0:
 			img = imgs[0]
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/user_info.html',
 			{'user_name':user.username, 'has_login':has_login, 'img': img, 'has_own_avatar':True})
 		else:
-			return render(request, 'LinkAct/linker_page.html',
+			return render(request, 'LinkAct/user_info.html',
 			{'user_name':user.username, 'has_login':has_login, 'has_own_avatar':False})
 
 	#default render#
