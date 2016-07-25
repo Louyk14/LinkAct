@@ -20,7 +20,7 @@ from . import views
 urlpatterns = [
 	url(r'user/info/', views.check_personal_msg, name='user_info_url'),
     url(r'user/set_password/', views.set_password_func, name='user_password_url'),
-	url(r'linker/', views.linker_page_show, name='linker_page_url'),
+    url(r'^linker/$', views.search_people, name='linker_page_url'),
     url(r'activities/', views.activities_page_show, name='activities_page_url'),
     url(r'explore/', views.explore_page_show, name='explore_page_url'),
     url(r'share/', views.share_page_show, name='share_page_url'),
