@@ -531,7 +531,8 @@ def show_people(request):
                 new_obj.append(obj)
 
         return render(request, 'LinkAct/showPeople.html', {'form':form, 'obj':new_obj, 'last_page':current_page})
-
+     
+        
 def search_people(request):
     if request.method == 'GET':                                  
         search_class = request.GET['search_class']
@@ -539,6 +540,8 @@ def search_people(request):
         search_page = request.GET['search_page']
         search_order = request.GET['search_order']
         
+        answer = []
+
         if search_order == '1':
             answer = MyUser.objects.all().order_by('id')
         
@@ -561,7 +564,15 @@ def search_people(request):
         
         return render(request, 'msgboard/show_people.html', {'result':result, 'current_page':int(search_page), 'current_url':request.get_full_path(), 'next_page_url':next_page_url})    
 
-	
+    elif request.method == 'POST':
+        params = request.POST
+        if request.POST.get('submit') == 'search_submit':
+            aim_url = request.path
+            aim_url = aim_url + "?search_class=" + params.get('search_class', '') + "&search_content=" + params.get('search_content', '') + "&search_order=0&search_page=1" 
+            return HttpResponseRedirect(aim_url)
+
+
+                                
 #查找活动   //搜索页面不同于主页面 默认每页10条，所有展示活动的界面都绑定此函数
                 #urls.py r'^searchActs/'    绝对路径为127.0.0.0.1/searchActs/      因而展示界面上的各详情链接为  <a href='../showActs/?id='+ {{ result[index].id }} + '&last_page=' + {{ current_url }}>
                 #“下一页”按钮链接应为<a href={{ next_page_url }}>
@@ -575,6 +586,8 @@ def search_act(request):
         search_page = request.GET['search_page']
         #排序方法，为1时表示按照类别倒序排序，不搜索只排序
         search_order = request.GET['search_order']
+
+        answer = []
 
         if search_order == '1':
             answer = Activity.objects.all().order_by(search_class)
@@ -600,7 +613,13 @@ def search_act(request):
 
         return render(request, 'msgboard/searchActs.html', {'result':result, 'current_page':int(search_page), 'current_url':request.get_full_path(), 'next_page_url':next_page_url})
 
-
+    elif request.method == 'POST':
+        params = request.POST
+        if request.POST.get('submit') == 'search_submit':
+            aim_url = request.path
+            aim_url = aim_url + "?search_class=" + params.get('search_class', '') + "&search_content=" + params.get('search_content', '') + "&search_order=0&search_page=1" 
+            return HttpResponseRedirect(aim_url)
+        
 #展示具体活动的界面，返回按钮的链接应为<a href={{ last_page }}>， 若是创建者，则应存在链接“修改活动信息”，应为<a href=this_page_no_para + 'change/?id=' + act_obj.id + '&last_page=' + this_page>
 def show_act(request):
     if request.method == 'GET':
@@ -619,6 +638,7 @@ def show_act(request):
             isCreator = True
 
         return render(request, 'LinkAct/showAct.html', {'form':actForm, 'act_obj':act_obj, 'last_page':current_page, 'this_page':this_page, 'this_page_no_para':this_page_no_para, 'isCreator':isCreator})
+
 
 #添加好友
 def request_for_friend(request):
